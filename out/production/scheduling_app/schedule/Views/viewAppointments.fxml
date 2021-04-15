@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="1003.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView layoutY="144.0" prefHeight="457.0" prefWidth="1003.0">
+        <columns>
+          <TableColumn fx:id="appointment_id" prefWidth="129.0" text="Appointment Id" />
+          <TableColumn fx:id="user_id" prefWidth="76.0" text="User Id" />
+            <TableColumn fx:id="customer_id" prefWidth="131.0" text="Customer Id" />
+            <TableColumn fx:id="title" prefWidth="108.0" text="Title" />
+            <TableColumn fx:id="description" prefWidth="104.0" text="Description" />
+            <TableColumn fx:id="location" prefWidth="134.0" text="Location" />
+            <TableColumn fx:id="contact" minWidth="0.0" prefWidth="134.0" text="Contact" />
+            <TableColumn fx:id="start" minWidth="0.0" prefWidth="89.0" text="Start" />
+            <TableColumn fx:id="end" prefWidth="97.0" text="End" />
+        </columns>
+      </TableView>
+      <Text layoutX="318.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments" textAlignment="CENTER" wrappingWidth="366.7294921875">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Button fx:id="weekly_appointments" layoutX="40.0" layoutY="83.0" mnemonicParsing="false" onAction="#weeklyAppointments" prefHeight="26.0" prefWidth="185.0" text="Weekly Appointments" />
+      <Button fx:id="monthlyAppointmens" layoutX="274.0" layoutY="83.0" mnemonicParsing="false" onAction="#monthlyAppointments" prefHeight="26.0" prefWidth="185.0" text="Monthly Appointments" />
+      <Button fx:id="all_appointments" layoutX="502.0" layoutY="83.0" mnemonicParsing="false" onAction="#allAppointments" prefHeight="26.0" prefWidth="185.0" text="All Appointments" />
+      <Button fx:id="cancel" layoutX="752.0" layoutY="83.0" mnemonicParsing="false" onAction="#cancel" prefHeight="26.0" prefWidth="185.0" text="Cancel" />
+   </children>
+</AnchorPane>

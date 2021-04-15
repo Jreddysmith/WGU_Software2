@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="493.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Views.AppointmentTypes">
+   <children>
+      <Text layoutX="242.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointment Types Report" textAlignment="CENTER" wrappingWidth="369.7294921875">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Text>
+      <TableView layoutX="529.0" layoutY="72.0" prefHeight="344.0" prefWidth="302.0">
+        <columns>
+          <TableColumn fx:id="appointment_type" prefWidth="182.0" text="Appointment Type" />
+          <TableColumn fx:id="count" prefWidth="119.0" text="Count" />
+        </columns>
+      </TableView>
+      <Button fx:id="cancel" layoutX="694.0" layoutY="438.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="26.0" prefWidth="137.0" text="Cancel" />
+      <AnchorPane layoutX="72.0" layoutY="82.0" prefHeight="344.0" prefWidth="302.0" style="-fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 2;">
+         <children>
+            <RadioButton fx:id="january" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#januaryButton" text="January">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="february" layoutX="15.0" layoutY="73.0" mnemonicParsing="false" onAction="#februaryButton" text="February">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="march" layoutX="14.0" layoutY="123.0" mnemonicParsing="false" onAction="#marchButton" text="March">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="april" layoutX="14.0" layoutY="177.0" mnemonicParsing="false" onAction="#aprilButton" text="April">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="may" layoutX="16.0" layoutY="231.0" mnemonicParsing="false" onAction="#mayButton" text="May">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="june" layoutX="15.0" layoutY="287.0" mnemonicParsing="false" onAction="#juneButton" text="June">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="july" layoutX="140.0" layoutY="27.0" mnemonicParsing="false" onAction="#julyButton" text="July">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="august" layoutX="142.0" layoutY="73.0" mnemonicParsing="false" onAction="#augustButton" text="August">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="september" layoutX="140.0" layoutY="123.0" mnemonicParsing="false" onAction="#septemberButton" text="September">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="october" layoutX="143.0" layoutY="177.0" mnemonicParsing="false" onAction="#octoberButton" text="October">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="november" layoutX="143.0" layoutY="231.0" mnemonicParsing="false" onAction="#novemberButton" text="November">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="december" layoutX="142.0" layoutY="287.0" mnemonicParsing="false" onAction="#decemberButton" text="December">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

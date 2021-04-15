@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="708.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Controllers.HomePageController">
+   <children>
+      <Text layoutX="182.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App" textAlignment="CENTER" wrappingWidth="492.81201171875">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <AnchorPane layoutX="19.0" layoutY="378.0" prefHeight="316.0" prefWidth="831.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 4;">
+         <children>
+            <TableView fx:id="customer_table" layoutX="8.0" layoutY="58.0" prefHeight="200.0" prefWidth="819.0">
+              <columns>
+                <TableColumn fx:id="customer_id" prefWidth="141.0" text="Customer ID" />
+                <TableColumn fx:id="customer_name" minWidth="0.0" prefWidth="226.0" text="Customer Name" />
+                  <TableColumn fx:id="customer_address_id" prefWidth="236.0" text="Address ID" />
+                  <TableColumn fx:id="customer_active" prefWidth="210.0" text="Active" />
+              </columns>
+            </TableView>
+            <Text layoutX="367.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customers" wrappingWidth="96.8115234375">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="customer_add" layoutX="53.0" layoutY="271.0" mnemonicParsing="false" onAction="#customerAdd" prefHeight="26.0" prefWidth="160.0" text="Add" />
+            <Button fx:id="customer_modify" layoutX="338.0" layoutY="271.0" mnemonicParsing="false" onAction="#customerModify" prefHeight="26.0" prefWidth="160.0" text="Modify" />
+            <Button fx:id="customer_delete" layoutX="615.0" layoutY="271.0" mnemonicParsing="false" onAction="#customerDelete" prefHeight="26.0" prefWidth="160.0" text="Delete" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="17.0" layoutY="118.0" prefHeight="255.0" prefWidth="830.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 4;">
+         <children>
+            <TableView layoutX="7.0" layoutY="46.0" prefHeight="149.0" prefWidth="819.0">
+              <columns>
+                <TableColumn fx:id="appointment_id" prefWidth="169.0" text="Appointment ID" />
+                <TableColumn fx:id="appointment_user_id" minWidth="0.0" prefWidth="107.0" text="User ID" />
+                  <TableColumn fx:id="appoinment_customer_id" prefWidth="165.0" text="Customer ID" />
+                  <TableColumn fx:id="appointment_title" prefWidth="120.0" text="Title" />
+                  <TableColumn fx:id="appointment_start" prefWidth="118.0" text="Start" />
+                  <TableColumn fx:id="appointment_end" prefWidth="135.0" text="End" />
+              </columns>
+            </TableView>
+            <Text layoutX="345.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments" wrappingWidth="126.0966796875">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="appointment_add" layoutX="40.0" layoutY="204.0" mnemonicParsing="false" onAction="#appointmentAdd" prefHeight="26.0" prefWidth="160.0" text="Add" />
+            <Button fx:id="appointment_modify" layoutX="335.0" layoutY="204.0" mnemonicParsing="false" onAction="#appointmentModify" prefHeight="26.0" prefWidth="160.0" text="Modify" />
+            <Button fx:id="appointment_delete" layoutX="619.0" layoutY="204.0" mnemonicParsing="false" onAction="#appointmentDelete" prefHeight="26.0" prefWidth="160.0" text="Delete" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="16.0" layoutY="52.0" prefHeight="49.0" prefWidth="830.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 4;">
+         <children>
+            <Button fx:id="view_Appointments" layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#viewAppointments" text="View Appointments" />
+            <Button fx:id="appointment_types_report" layoutX="169.0" layoutY="11.0" mnemonicParsing="false" onAction="#appointmentTypesReport" text="Appointment Types Report" />
+            <Button fx:id="consultant_schedule_report" layoutX="368.0" layoutY="11.0" mnemonicParsing="false" onAction="#consultantScheduleReport" prefHeight="26.0" prefWidth="220.0" text="Consultant Schedule Report" />
+            <Button fx:id="appointment_costumers_report" layoutX="596.0" layoutY="11.0" mnemonicParsing="false" onAction="#appointmentCostumersReport" prefHeight="26.0" prefWidth="226.0" text="Appointment Costumers Report" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="logout" layoutX="780.0" layoutY="16.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+   </children>
+</AnchorPane>
