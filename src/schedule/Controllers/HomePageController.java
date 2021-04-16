@@ -12,6 +12,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import schedule.Models.Appointment;
+import schedule.Models.Appointments;
 import schedule.Models.Customer;
 import schedule.Models.Customers;
 
@@ -48,7 +50,32 @@ public class HomePageController implements Initializable {
     ObservableList<Customer> customerListView;
 
     @FXML
-    public void updateList() {customer_table.setItems(Customers.getCustomers());}
+    private TableView<Appointment> appointment_table;
+
+    @FXML
+    private TableColumn<Appointment, String> appointment_id;
+
+    @FXML
+    private TableColumn<Appointment, String> appointment_user_id;
+
+    @FXML
+    private TableColumn<Appointment, String> appointment_customer_id;
+
+    @FXML
+    private TableColumn<Appointment, String> appointment_title;
+
+    @FXML
+    private TableColumn<Appointment, String> appointment_start;
+
+    @FXML
+    private TableColumn<Appointment, String> appointment_end;
+
+
+    @FXML
+    public void updateCustomerList() {customer_table.setItems(Customers.getCustomers());}
+
+    @FXML
+    public void updateAppointmentList() {appointment_table.setItems(Appointments.getAppointments());}
 
 
     @Override
@@ -57,9 +84,17 @@ public class HomePageController implements Initializable {
         customer_name.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
         customer_address_id.setCellValueFactory(new PropertyValueFactory<Customer, String>("addressId"));
         customer_active.setCellValueFactory(new PropertyValueFactory<Customer, String>("active"));
-        System.out.println("in the initialize");
-        updateList();
+        System.out.println("In the initialize for customer Table");
+        updateCustomerList();
 
+        appointment_id.setCellValueFactory(new PropertyValueFactory<Appointment, String>("appointmentId"));
+        appointment_user_id.setCellValueFactory(new PropertyValueFactory<Appointment, String>("userId"));
+        appointment_customer_id.setCellValueFactory(new PropertyValueFactory<Appointment, String>("customerId"));
+        appointment_title.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
+        appointment_start.setCellValueFactory(new PropertyValueFactory<Appointment, String>("start"));
+        appointment_end.setCellValueFactory(new PropertyValueFactory<Appointment, String>("end"));
+        System.out.println("In the initialize for appointment Table");
+        updateAppointmentList();
 
     }
 
@@ -75,7 +110,7 @@ public class HomePageController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
 
-        updateList();
+        updateCustomerList();
 
     }
 
@@ -110,7 +145,7 @@ public class HomePageController implements Initializable {
 
         if(customer != null) {
             Customers.deleteCustomer(customer);
-            updateList();
+            updateCustomerList();
             System.out.println("Customer Deleted successfully");
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

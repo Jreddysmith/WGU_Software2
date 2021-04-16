@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import schedule.DatabaseConnection;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 
 public class Appointments {
 
@@ -53,8 +54,25 @@ public class Appointments {
         try{
             Statement appointmentListStatement = connectDB.createStatement();
             ResultSet appointmentListQuery = appointmentListStatement.executeQuery(appointmentQuery);
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 
             while (appointmentListQuery.next()) {
+                String appointmentId = Integer.toString(appointmentListQuery.getInt(1));
+                String customerId = Integer.toString(appointmentListQuery.getInt(2));
+                String userId = Integer.toString(appointmentListQuery.getInt(3));
+                String title = appointmentListQuery.getString(4);
+                String description = appointmentListQuery.getString(5);
+                String location = appointmentListQuery.getString(6);
+                String contact = appointmentListQuery.getString(7);
+                String type = appointmentListQuery.getString(8);
+                String url = appointmentListQuery.getString(9);
+                String start = formatter.format(appointmentListQuery.getDate(10));
+                String end = formatter.format(appointmentListQuery.getDate(11));
+
+                appointmentsList.add(new Appointment(appointmentId, customerId, userId, title, description, location, contact,
+                        type, url, start, end));
+
+                System.out.println("Just got all the appointments!!!!");
 
             }
         } catch (SQLException e) {

@@ -36,11 +36,11 @@
       </AnchorPane>
       <AnchorPane layoutX="17.0" layoutY="118.0" prefHeight="255.0" prefWidth="830.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 4;">
          <children>
-            <TableView layoutX="7.0" layoutY="46.0" prefHeight="149.0" prefWidth="819.0">
+            <TableView fx:id="appointment_table" layoutX="7.0" layoutY="46.0" prefHeight="149.0" prefWidth="819.0">
               <columns>
                 <TableColumn fx:id="appointment_id" prefWidth="169.0" text="Appointment ID" />
                 <TableColumn fx:id="appointment_user_id" minWidth="0.0" prefWidth="107.0" text="User ID" />
-                  <TableColumn fx:id="appoinment_customer_id" prefWidth="165.0" text="Customer ID" />
+                  <TableColumn fx:id="appointment_customer_id" prefWidth="165.0" text="Customer ID" />
                   <TableColumn fx:id="appointment_title" prefWidth="120.0" text="Title" />
                   <TableColumn fx:id="appointment_start" prefWidth="118.0" text="Start" />
                   <TableColumn fx:id="appointment_end" prefWidth="135.0" text="End" />
