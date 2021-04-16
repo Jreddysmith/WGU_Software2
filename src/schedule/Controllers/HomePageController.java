@@ -30,7 +30,14 @@ public class HomePageController implements Initializable {
     @FXML
     private Button appointment_add;
 
-    @FXML Button customer_modify;
+    @FXML
+    private Button customer_modify;
+
+    @FXML
+    private Button appointment_modify;
+
+    @FXML
+    private Button view_appointments;
 
     @FXML
     private TableView<Customer> customer_table;
@@ -122,7 +129,7 @@ public class HomePageController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("Modify Error");
-            alert.setContentText("You have to have an item to be able to modify it");
+            alert.setContentText("You have to have a customer selected to be able to modify it");
             alert.showAndWait();
         } else {
             FXMLLoader loader = new FXMLLoader();
@@ -169,8 +176,28 @@ public class HomePageController implements Initializable {
     }
 
     @FXML
-    public void appointmentModify() {
+    public void appointmentModify() throws IOException {
+        Appointment appointment = appointment_table.getSelectionModel().getSelectedItem();
 
+        if(appointment == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Modify Error");
+            alert.setContentText("You have to have a appointment selected to be able to modify it");
+            alert.showAndWait();
+        } else {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/schedule/Views/addAppointment.fxml"));
+            Parent root = loader.load();
+
+            AppointmentController mpc = loader.getController();
+            mpc.getAppointment(appointment);
+
+            Stage stage;
+            stage = (Stage)appointment_modify.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
     @FXML
@@ -193,7 +220,14 @@ public class HomePageController implements Initializable {
     }
 
     @FXML
-    public void viewAppointments(){
+    public void viewAppointments() throws IOException{
+        Stage stage = new Stage();
+        stage = (Stage)view_appointments.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/schedule/Views/viewAppointments.fxml"));
+        Parent root = loader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
 
     }
 

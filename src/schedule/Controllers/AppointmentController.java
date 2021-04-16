@@ -7,9 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.w3c.dom.Text;
+import schedule.Models.Appointment;
 import schedule.Models.Appointments;
 
 import java.io.IOException;
@@ -59,9 +61,13 @@ public class AppointmentController implements Initializable {
     @FXML
     private Button close_button;
 
+    @FXML
+    private Label main_label;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
+    }
 
     @FXML
     public void saveButton(ActionEvent event) throws IOException {
@@ -106,9 +112,23 @@ public class AppointmentController implements Initializable {
 
     }
 
+    public void getAppointment(Appointment appointment) {
+        main_label.setText("Modify Appointment");
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println(appointment.getAppointmentId());
+        System.out.println(appointment.getCustomerId());
+        System.out.println(appointment.getUserId());
 
+
+        customer_id.setText(appointment.getCustomerId());
+        user_id.setText(appointment.getUserId());
+        title.setText(appointment.getTitle());
+        description.setText(appointment.getDescription());
+        location.setText(appointment.getLocation());
+        contact.setText(appointment.getContact());
+        type.setText(appointment.getType());
+        url.setText(appointment.getUrl());
+        start.setText(appointment.getStart());
+        end.setText(appointment.getEnd());
     }
 }

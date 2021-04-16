@@ -58,7 +58,7 @@
       </AnchorPane>
       <AnchorPane layoutX="16.0" layoutY="52.0" prefHeight="49.0" prefWidth="830.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 4;">
          <children>
-            <Button fx:id="view_Appointments" layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#viewAppointments" text="View Appointments" />
+            <Button fx:id="view_appointments" layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#viewAppointments" text="View Appointments" />
             <Button fx:id="appointment_types_report" layoutX="169.0" layoutY="11.0" mnemonicParsing="false" onAction="#appointmentTypesReport" text="Appointment Types Report" />
             <Button fx:id="consultant_schedule_report" layoutX="368.0" layoutY="11.0" mnemonicParsing="false" onAction="#consultantScheduleReport" prefHeight="26.0" prefWidth="220.0" text="Consultant Schedule Report" />
             <Button fx:id="appointment_costumers_report" layoutX="596.0" layoutY="11.0" mnemonicParsing="false" onAction="#appointmentCostumersReport" prefHeight="26.0" prefWidth="226.0" text="Appointment Costumers Report" />
