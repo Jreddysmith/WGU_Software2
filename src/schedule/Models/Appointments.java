@@ -80,4 +80,19 @@ public class Appointments {
         }
         return appointmentsList;
     }
+
+    public static void deleteAppointment(Appointment appointment){
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        String deleteAppointmentQuery = "delete from U05wjs.appointment where appointmentId = ?";
+
+        try{
+            PreparedStatement appointmentStatement = connectDB.prepareStatement(deleteAppointmentQuery);
+            appointmentStatement.setString(1, appointment.getAppointmentId());
+            appointmentStatement.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

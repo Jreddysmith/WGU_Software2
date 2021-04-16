@@ -151,7 +151,7 @@ public class HomePageController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("Delete Error");
-            alert.setContentText("You have to have an item to be able to delete it");
+            alert.setContentText("You have to have a customer to be able to delete it");
             alert.showAndWait();
         }
 
@@ -175,6 +175,20 @@ public class HomePageController implements Initializable {
 
     @FXML
     public void appointmentDelete(){
+
+        Appointment appointment = appointment_table.getSelectionModel().getSelectedItem();
+
+        if(appointment != null) {
+            Appointments.deleteAppointment(appointment);
+            updateAppointmentList();
+            System.out.println("Appointment Deleted successfully");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Delete Error");
+            alert.setContentText("You have to have a appointment to be able to delete it");
+            alert.showAndWait();
+        }
 
     }
 
