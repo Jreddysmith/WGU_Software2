@@ -3,6 +3,7 @@ package schedule.Controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,9 +13,12 @@ import org.w3c.dom.Text;
 import schedule.Models.Appointments;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.ResourceBundle;
 
-public class AppointmentController {
+public class AppointmentController implements Initializable {
 
     @FXML
     private TextField customer_id;
@@ -47,6 +51,9 @@ public class AppointmentController {
     private TextField end;
 
     @FXML
+    private TextField date;
+
+    @FXML
     private Button save_button;
 
     @FXML
@@ -70,7 +77,20 @@ public class AppointmentController {
         String startField = start.getText();
         String endField = end.getText();
 
-        new Appointments().addAppointment();
+
+//
+        new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
+                typeField, urlField, startField, endField);
+
+        System.out.println("back to controller after appointment save");
+
+        Stage stage;
+        stage = (Stage)save_button.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
+        Parent root = loader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
 
     }
 
@@ -87,6 +107,8 @@ public class AppointmentController {
     }
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
+    }
 }

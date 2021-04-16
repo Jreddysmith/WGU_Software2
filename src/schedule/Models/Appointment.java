@@ -11,6 +11,7 @@ public class Appointment {
     private String contact;
     private String type;
     private String url;
+    private String date;
     private String start;
     private String end;
 
@@ -117,5 +118,13 @@ public class Appointment {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
