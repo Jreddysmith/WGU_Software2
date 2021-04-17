@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="1003.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="1003.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Controllers.ConsultantAppointmentReportController">
    <children>
-      <TableView layoutY="144.0" prefHeight="457.0" prefWidth="1003.0">
+      <TableView fx:id="consultant_table" layoutY="144.0" prefHeight="457.0" prefWidth="1003.0">
         <columns>
           <TableColumn fx:id="appointment_id" prefWidth="129.0" text="Appointment Id" />
           <TableColumn fx:id="user_id" prefWidth="76.0" text="User Id" />

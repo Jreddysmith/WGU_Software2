@@ -12,23 +12,23 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import schedule.Models.Appointment;
-import schedule.Models.Appointments;
+import schedule.Models.Customer;
+import schedule.Models.Customers;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AppointmentTypeReportController implements Initializable {
+public class AppointmentCustomerReportController implements Initializable {
 
     @FXML
-    private TableView<Appointment> table_appointment_type;
+    private TableView<Customer> app_cus_rep_table;
 
     @FXML
-    private TableColumn<Appointment, String> appointment_type;
+    private TableColumn<Customer, String> customer_id;
 
     @FXML
-    private TableColumn<Appointment, String> count;
+    private TableColumn<Customer, String> count;
 
     @FXML
     private Button cancel;
@@ -70,17 +70,17 @@ public class AppointmentTypeReportController implements Initializable {
     private RadioButton december;
 
     @FXML
-    private void getAllAppointments() {table_appointment_type.setItems(Appointments.getAppointments());}
+    public void getAllCustomers() {app_cus_rep_table.setItems(Customers.getCustomers());}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        appointment_type.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
-        getAllAppointments();
+        customer_id.setCellValueFactory((new PropertyValueFactory<Customer, String>("customerId")));
+        getAllCustomers();
 
     }
 
     @FXML
-    public void aprilButton(ActionEvent event) throws IOException {
+    void aprilButton(ActionEvent event) {
 
     }
 
@@ -90,7 +90,8 @@ public class AppointmentTypeReportController implements Initializable {
     }
 
     @FXML
-    void cancelButton(ActionEvent event) throws IOException{
+    void cancelButton(ActionEvent event) throws IOException {
+
         Stage stage;
         stage = (Stage)cancel.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
@@ -150,5 +151,5 @@ public class AppointmentTypeReportController implements Initializable {
 
     }
 
-
 }
+

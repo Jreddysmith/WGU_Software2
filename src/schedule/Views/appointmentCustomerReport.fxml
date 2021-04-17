@@ -8,15 +8,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="493.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Views.AppointmentTypes">
+<AnchorPane prefHeight="493.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Controllers.AppointmentCustomerReportController">
    <children>
       <Text layoutX="208.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointment Customers Report" textAlignment="CENTER" wrappingWidth="485.7294921875">
          <font>
             <Font size="26.0" />
          </font>
       </Text>
-      <TableView layoutX="529.0" layoutY="72.0" prefHeight="344.0" prefWidth="302.0">
+      <TableView fx:id="app_cus_rep_table" layoutX="529.0" layoutY="72.0" prefHeight="344.0" prefWidth="302.0">
         <columns>
           <TableColumn fx:id="customer_id" prefWidth="182.0" text="Customer ID" />
           <TableColumn fx:id="count" prefWidth="119.0" text="Count" />

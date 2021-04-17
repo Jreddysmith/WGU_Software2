@@ -43,6 +43,12 @@ public class HomePageController implements Initializable {
     private Button appointment_types_report;
 
     @FXML
+    private Button appointment_costumers_report;
+
+    @FXML
+    private Button consultant_schedule_report;
+
+    @FXML
     private TableView<Customer> customer_table;
 
     @FXML
@@ -246,13 +252,27 @@ public class HomePageController implements Initializable {
     }
 
     @FXML
-    public void consultantScheduleReport(){
+    public void consultantScheduleReport() throws IOException {
 
+        Stage stage = new Stage();
+        stage = (Stage)consultant_schedule_report.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/schedule/Views/consultantAppointmentsReport.fxml"));
+        Parent root = loader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
-    public void appointmentCostumersReport(){
+    public void appointmentCostumersReport() throws IOException {
 
+        Stage stage = new Stage();
+        stage = (Stage)appointment_costumers_report.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/schedule/Views/appointmentCustomerReport.fxml"));
+        Parent root = loader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
