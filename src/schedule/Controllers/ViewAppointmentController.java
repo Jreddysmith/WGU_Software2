@@ -9,8 +9,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import schedule.Models.Appointment;
+import schedule.Models.Appointments;
+import schedule.Models.Customer;
 
 import java.io.IOException;
 import java.net.URL;
@@ -60,8 +63,21 @@ public class ViewAppointmentController implements Initializable {
     @FXML
     private Button cancel;
 
+    @FXML
+    public void allAppointmentsButton() { appointment_table.setItems(Appointments.getAppointments());}
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        appointment_id.setCellValueFactory(new PropertyValueFactory<Appointment, String>("appointmentId"));
+        user_id.setCellValueFactory(new PropertyValueFactory<Appointment, String>("userId"));
+        customer_id.setCellValueFactory(new PropertyValueFactory<Appointment, String>("customerId"));
+        title.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
+        description.setCellValueFactory(new PropertyValueFactory<Appointment, String>("description"));
+        location.setCellValueFactory(new PropertyValueFactory<Appointment, String>("location"));
+        contact.setCellValueFactory(new PropertyValueFactory<Appointment, String>("contact"));
+        start.setCellValueFactory(new PropertyValueFactory<Appointment, String>("start"));
+        end.setCellValueFactory(new PropertyValueFactory<Appointment, String>("end"));
+        allAppointmentsButton();
 
     }
 

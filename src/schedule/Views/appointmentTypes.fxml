@@ -9,14 +9,14 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="493.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Views.AppointmentTypes">
+<AnchorPane prefHeight="493.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Controllers.AppointmentTypeReportController">
    <children>
       <Text layoutX="242.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointment Types Report" textAlignment="CENTER" wrappingWidth="369.7294921875">
          <font>
             <Font size="26.0" />
          </font>
       </Text>
-      <TableView layoutX="529.0" layoutY="72.0" prefHeight="344.0" prefWidth="302.0">
+      <TableView fx:id="table_appointment_type" layoutX="529.0" layoutY="72.0" prefHeight="344.0" prefWidth="302.0">
         <columns>
           <TableColumn fx:id="appointment_type" prefWidth="182.0" text="Appointment Type" />
           <TableColumn fx:id="count" prefWidth="119.0" text="Count" />
