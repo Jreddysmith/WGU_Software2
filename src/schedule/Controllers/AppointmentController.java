@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -16,6 +17,7 @@ import schedule.Models.Appointments;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -53,7 +55,7 @@ public class AppointmentController implements Initializable {
     private TextField end;
 
     @FXML
-    private TextField date;
+    private DatePicker date_picker;
 
     @FXML
     private Button save_button;
@@ -72,31 +74,36 @@ public class AppointmentController implements Initializable {
     @FXML
     public void saveButton(ActionEvent event) throws IOException {
 
-        int customerId = Integer.parseInt(customer_id.getText());
-        int userId = Integer.parseInt(user_id.getText());
-        String titleField = title.getText();
-        String descriptionField = description.getText();
-        String locationField = location.getText();
-        String contactField = contact.getText();
-        String typeField = type.getText();
-        String urlField = url.getText();
-        String startField = start.getText();
-        String endField = end.getText();
+        LocalDate dateValue = date_picker.getValue();
+        String myFormatedDate = dateValue.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
+        System.out.println(myFormatedDate);
+
+
+//        int customerId = Integer.parseInt(customer_id.getText());
+//        int userId = Integer.parseInt(user_id.getText());
+//        String titleField = title.getText();
+//        String descriptionField = description.getText();
+//        String locationField = location.getText();
+//        String contactField = contact.getText();
+//        String typeField = type.getText();
+//        String urlField = url.getText();
+//        String startField = start.getText();
+//        String endField = end.getText();
 
 
 //
-        new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
-                typeField, urlField, startField, endField);
-
-        System.out.println("back to controller after appointment save");
-
-        Stage stage;
-        stage = (Stage)save_button.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
-        Parent root = loader.load();
-        stage.setScene(new Scene(root));
-        stage.show();
+//        new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
+//                typeField, urlField, startField, endField);
+//
+//        System.out.println("back to controller after appointment save");
+//
+//        Stage stage;
+//        stage = (Stage)save_button.getScene().getWindow();
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
+//        Parent root = loader.load();
+//        stage.setScene(new Scene(root));
+//        stage.show();
 
     }
 
@@ -130,5 +137,10 @@ public class AppointmentController implements Initializable {
         url.setText(appointment.getUrl());
         start.setText(appointment.getStart());
         end.setText(appointment.getEnd());
+    }
+
+    @FXML
+    public void datePicker(ActionEvent event) {
+
     }
 }

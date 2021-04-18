@@ -3,14 +3,12 @@ package schedule.Controllers;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import schedule.Models.Customer;
 import schedule.Models.Customers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -37,6 +35,12 @@ public class CustomerController {
     @FXML
     private TextField customer_active;
     @FXML
+    private RadioButton active_yes;
+    @FXML
+    private RadioButton active_no;
+    @FXML
+    private ToggleGroup activeGroup;
+    @FXML
     private Label main_label;
 
 
@@ -57,7 +61,8 @@ public class CustomerController {
         String customerCountry = customer_country.getText();
         String customerZipcode = customer_zipcode.getText();
         String customerNumber = customer_number.getText();
-        int customerActive = Integer.parseInt(customer_active.getText());
+        int customerActive = 0;
+        if (active_yes.isSelected()){ customerActive = 1; }
 
 
         new Customers().addCustomer(customerName, customerAddress1, customerAddress2, customerCity, customerCountry,

@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="699.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Controllers.AppointmentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="699.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Controllers.AppointmentController">
    <children>
       <Label fx:id="main_label" layoutX="174.0" layoutY="38.0" text="Add Appointment">
          <font>
@@ -89,13 +89,12 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <TextField fx:id="start" layoutX="321.0" layoutY="464.0" />
-      <TextField fx:id="end" layoutX="321.0" layoutY="500.0" />
 <!--      <DatePicker fx:id="date" layoutX="320.0" layoutY="429.0" />-->
       <Text layoutX="74.0" layoutY="447.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
+      <DatePicker fx:id="date_picker" layoutX="320.0" layoutY="429.0" onAction="#datePicker" />
    </children>
 </AnchorPane>

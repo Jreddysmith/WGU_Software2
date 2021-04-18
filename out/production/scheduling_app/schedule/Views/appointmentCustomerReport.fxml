@@ -4,6 +4,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -28,58 +29,61 @@
                <font>
                   <Font size="18.0" />
                </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="monthGroup" />
+               </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="february" layoutX="15.0" layoutY="73.0" mnemonicParsing="false" onAction="#februaryButton" text="February">
+            <RadioButton fx:id="february" layoutX="15.0" layoutY="73.0" mnemonicParsing="false" onAction="#februaryButton" text="February" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="march" layoutX="14.0" layoutY="123.0" mnemonicParsing="false" onAction="#marchButton" text="March">
+            <RadioButton fx:id="march" layoutX="14.0" layoutY="123.0" mnemonicParsing="false" onAction="#marchButton" text="March" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="april" layoutX="14.0" layoutY="177.0" mnemonicParsing="false" onAction="#aprilButton" text="April">
+            <RadioButton fx:id="april" layoutX="14.0" layoutY="177.0" mnemonicParsing="false" onAction="#aprilButton" text="April" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="may" layoutX="16.0" layoutY="231.0" mnemonicParsing="false" onAction="#mayButton" text="May">
+            <RadioButton fx:id="may" layoutX="16.0" layoutY="231.0" mnemonicParsing="false" onAction="#mayButton" text="May" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="june" layoutX="15.0" layoutY="287.0" mnemonicParsing="false" onAction="#juneButton" text="June">
+            <RadioButton fx:id="june" layoutX="15.0" layoutY="287.0" mnemonicParsing="false" onAction="#juneButton" text="June" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="july" layoutX="140.0" layoutY="27.0" mnemonicParsing="false" onAction="#julyButton" text="July">
+            <RadioButton fx:id="july" layoutX="140.0" layoutY="27.0" mnemonicParsing="false" onAction="#julyButton" text="July" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="august" layoutX="142.0" layoutY="73.0" mnemonicParsing="false" onAction="#augustButton" text="August">
+            <RadioButton fx:id="august" layoutX="142.0" layoutY="73.0" mnemonicParsing="false" onAction="#augustButton" text="August" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="september" layoutX="140.0" layoutY="123.0" mnemonicParsing="false" onAction="#septemberButton" text="September">
+            <RadioButton fx:id="september" layoutX="140.0" layoutY="123.0" mnemonicParsing="false" onAction="#septemberButton" text="September" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="october" layoutX="143.0" layoutY="177.0" mnemonicParsing="false" onAction="#octoberButton" text="October">
+            <RadioButton fx:id="october" layoutX="143.0" layoutY="177.0" mnemonicParsing="false" onAction="#octoberButton" text="October" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="november" layoutX="143.0" layoutY="231.0" mnemonicParsing="false" onAction="#novemberButton" text="November">
+            <RadioButton fx:id="november" layoutX="143.0" layoutY="231.0" mnemonicParsing="false" onAction="#novemberButton" text="November" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="december" layoutX="142.0" layoutY="287.0" mnemonicParsing="false" onAction="#decemberButton" text="December">
+            <RadioButton fx:id="december" layoutX="142.0" layoutY="287.0" mnemonicParsing="false" onAction="#decemberButton" text="December" toggleGroup="$monthGroup">
                <font>
                   <Font size="18.0" />
                </font>

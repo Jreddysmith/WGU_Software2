@@ -4,12 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import schedule.Models.Appointment;
@@ -70,6 +68,11 @@ public class AppointmentTypeReportController implements Initializable {
     private RadioButton december;
 
     @FXML
+    private ToggleGroup monthGroup;
+
+
+
+    @FXML
     private void getAllAppointments() {table_appointment_type.setItems(Appointments.getAppointments());}
 
     @Override
@@ -77,18 +80,27 @@ public class AppointmentTypeReportController implements Initializable {
         appointment_type.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
         getAllAppointments();
 
+        january.setUserData("january");
+        february.setUserData("february");
+        march.setUserData("march");
+        april.setUserData("april");
+        may.setUserData("may");
+        june.setUserData("june");
+        july.setUserData("july");
+        august.setUserData("august");
+        september.setUserData("september");
+        october.setUserData("october");
+        november.setUserData("november");
+        december.setUserData("december");
+
+        monthGroup.selectedToggleProperty().addListener(((observableValue, oldToggle, newToggle) -> {
+            if(monthGroup.getSelectedToggle() != null) {
+                System.out.println("lets see if this works " + monthGroup.getSelectedToggle().getUserData().toString());
+            }
+        }));
+
+
     }
-
-    @FXML
-    public void aprilButton(ActionEvent event) throws IOException {
-
-    }
-
-    @FXML
-    void augustButton(ActionEvent event) {
-
-    }
-
     @FXML
     void cancelButton(ActionEvent event) throws IOException{
         Stage stage;
@@ -99,56 +111,4 @@ public class AppointmentTypeReportController implements Initializable {
         stage.setScene(new Scene(root));
         stage.show();
     }
-
-    @FXML
-    void decemberButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void februaryButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void januaryButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void julyButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void juneButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void marchButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void mayButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void novemberButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void octoberButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void septemberButton(ActionEvent event) {
-
-    }
-
-
 }
