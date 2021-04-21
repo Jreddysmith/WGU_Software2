@@ -63,6 +63,8 @@ public class CustomerController {
         String customerNumber = customer_number.getText();
         int customerActive = 0;
         if (active_yes.isSelected()){ customerActive = 1; }
+        if (active_no.isSelected()){customerActive = 0; }
+        System.out.println(customerActive);
 
 
         new Customers().addCustomer(customerName, customerAddress1, customerAddress2, customerCity, customerCountry,
