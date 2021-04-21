@@ -188,6 +188,37 @@ public class Appointments {
         return appointmentsListByMonth;
     }
 
+//    public static ObservableList<Appointment> getCustomerCountInMonth(String month) {
+//        System.out.println("lets see if we can get the months" + month);
+//
+//        ObservableList<Appointment> customersListMonthCount = FXCollections.observableArrayList();
+//
+//        DatabaseConnection connectNow = new DatabaseConnection();
+//        Connection connectDB = connectNow.getConnection();
+//
+//        String customerQuery = "select customerId, COUNT(*) from U05wjs.appointment where monthname(start) = ? GROUP BY customerId";
+//
+//        try{
+//            PreparedStatement customerStatement = connectDB.prepareStatement(customerQuery);
+//            customerStatement.setString(1, month);
+//            ResultSet customerResult = customerStatement.executeQuery();
+//
+//
+//            while (customerResult.next()) {
+//                String customerId = Integer.toString(customerResult.getInt("customerId"));
+//                String count = Integer.toString(customerResult.getInt(2));
+//                System.out.println("seee values" + customerId + count);
+//
+//                customersListMonthCount.add(new Appointment(customerId, count, ""));
+//
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("this is the results back from the model" + customersListMonthCount);
+//        return customersListMonthCount;
+//    }
+
     public static void deleteAppointment(Appointment appointment){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();

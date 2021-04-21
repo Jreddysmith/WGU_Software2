@@ -15,9 +15,13 @@ public class Customer {
     private String countryId;
     private String cityId;
     private String addressId;
-
     public Customer() {
 
+    }
+
+    public Customer(String customerId, String customerName) {
+        this.customerId = customerId;
+        this.customerName = customerName;
     }
 
     public Customer(String customerId, String customerName, String customerAddressId, String address, String address2,

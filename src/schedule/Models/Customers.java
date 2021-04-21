@@ -106,7 +106,6 @@ public class Customers {
             Statement customerListStatement = connectDB.createStatement();
             ResultSet customerListQuery = customerListStatement.executeQuery(customerQuery);
 
-
             while (customerListQuery.next()) {
 
                 String customerId = Integer.toString(customerListQuery.getInt("customerId"));
@@ -123,12 +122,8 @@ public class Customers {
                 String city = customerListQuery.getString("city");
                 String country = customerListQuery.getString("country");
 
-
-
                 customerList.add(new Customer(customerId, customerName, customerAddressId, address, address2, city, country,
                         postalCode, phone, customerActive, countryId, cityId, addressId));
-                System.out.println(customerId + customerName + customerAddressId + customerActive);
-                System.out.println("trying this");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -151,6 +146,30 @@ public class Customers {
             e.printStackTrace();
         }
     }
+
+        public static ObservableList<Customer> getCustomerCountInMonth(String month) {
+        ObservableList<Customer> customersListMonthCount = FXCollections.observableArrayList();
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        String customerQuery = "SELECT DISTINCT customerId, customerName FROM U05wjs.customer WHERE monthname(createDate) = ?";
+
+        try{
+            PreparedStatement customerStatement = connectDB.prepareStatement(customerQuery);
+            customerStatement.setString(1, month);
+            ResultSet customerResult = customerStatement.executeQuery();
+
+            while (customerResult.next()) {
+                String customerId = Integer.toString(customerResult.getInt("customerId"));
+                String customerName = customerResult.getString("customerName");
+                customersListMonthCount.add(new Customer(customerId, customerName));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customersListMonthCount;
+    }
+
 
     public static void getModifyCustomer(Customer customer) {
         DatabaseConnection connectNow = new DatabaseConnection();

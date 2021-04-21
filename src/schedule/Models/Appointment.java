@@ -19,9 +19,17 @@ public class Appointment {
     public Appointment() {
     }
 
+
     public Appointment(String type, String count) {
         this.type = type;
         this.count = count;
+    }
+
+    //look into this
+    public Appointment(String customerId, String count, String appointmentId) {
+        this.customerId = customerId;
+        this.count = count;
+        this.appointmentId = appointmentId;
     }
 
     public Appointment(String appointmentId, String customerId, String userId, String title, String description,
