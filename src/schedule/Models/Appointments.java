@@ -9,6 +9,81 @@ import java.text.SimpleDateFormat;
 
 public class Appointments {
 
+    public static ObservableList<Appointment> appointmentsMonthly() {
+        ObservableList<Appointment> monthList = FXCollections.observableArrayList();
+
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        String appointmentQuery = "select * from U05wjs.appointment where start> now() - INTERVAL 12 month";
+
+        try{
+            Statement appointmentListStatement = connectDB.createStatement();
+            ResultSet appointmentListQuery = appointmentListStatement.executeQuery(appointmentQuery);
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+
+
+            while (appointmentListQuery.next()) {
+                String appointmentId = Integer.toString(appointmentListQuery.getInt(1));
+                String customerId = Integer.toString(appointmentListQuery.getInt(2));
+                String userId = Integer.toString(appointmentListQuery.getInt(3));
+                String title = appointmentListQuery.getString(4);
+                String description = appointmentListQuery.getString(5);
+                String location = appointmentListQuery.getString(6);
+                String contact = appointmentListQuery.getString(7);
+                String type = appointmentListQuery.getString(8);
+                String url = appointmentListQuery.getString(9);
+                String start = formatter.format(appointmentListQuery.getDate(10));
+                String end = formatter.format(appointmentListQuery.getDate(11));
+
+                monthList.add(new Appointment(appointmentId, customerId, userId, title, description, location, contact,
+                        type, url, start, end));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return monthList;
+
+    }
+
+    public static ObservableList<Appointment> appointmentsWeekly() {
+
+        ObservableList<Appointment> weekList = FXCollections.observableArrayList();
+
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        String appointmentQuery = "select * from U05wjs.appointment where start> now() - INTERVAL 52 week";
+
+        try{
+            Statement appointmentListStatement = connectDB.createStatement();
+            ResultSet appointmentListQuery = appointmentListStatement.executeQuery(appointmentQuery);
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+
+
+            while (appointmentListQuery.next()) {
+                String appointmentId = Integer.toString(appointmentListQuery.getInt(1));
+                String customerId = Integer.toString(appointmentListQuery.getInt(2));
+                String userId = Integer.toString(appointmentListQuery.getInt(3));
+                String title = appointmentListQuery.getString(4);
+                String description = appointmentListQuery.getString(5);
+                String location = appointmentListQuery.getString(6);
+                String contact = appointmentListQuery.getString(7);
+                String type = appointmentListQuery.getString(8);
+                String url = appointmentListQuery.getString(9);
+                String start = formatter.format(appointmentListQuery.getDate(10));
+                String end = formatter.format(appointmentListQuery.getDate(11));
+
+                weekList.add(new Appointment(appointmentId, customerId, userId, title, description, location, contact,
+                        type, url, start, end));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return weekList;
+    }
+
     public void addAppointment(int customerId, int userId, String title, String description, String location, String contact,
                                String type, String url, String start, String end ) {
         DatabaseConnection connectNow = new DatabaseConnection();

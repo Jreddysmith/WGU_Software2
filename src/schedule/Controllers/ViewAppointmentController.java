@@ -66,6 +66,12 @@ public class ViewAppointmentController implements Initializable {
     @FXML
     public void allAppointmentsButton() { appointment_table.setItems(Appointments.getAppointments());}
 
+    @FXML
+    public void appointmentsMonthly() {appointment_table.setItems(Appointments.appointmentsMonthly());}
+
+    @FXML
+    public void appointmentWeekly() {appointment_table.setItems(Appointments.appointmentsWeekly());}
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointment_id.setCellValueFactory(new PropertyValueFactory<Appointment, String>("appointmentId"));
@@ -87,13 +93,14 @@ public class ViewAppointmentController implements Initializable {
     }
 
     @FXML
-    public void weeklyAppointments() throws IOException {
+    public void monthlyAppointments() throws IOException {
 
+        appointmentsMonthly();
     }
 
     @FXML
-    public void monthlyAppointments() throws IOException {
-
+    public void weeklyAppointments() throws IOException {
+        appointmentWeekly();
     }
 
     @FXML
