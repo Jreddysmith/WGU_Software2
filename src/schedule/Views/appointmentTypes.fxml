@@ -25,7 +25,7 @@
       <Button fx:id="cancel" layoutX="694.0" layoutY="438.0" mnemonicParsing="false" onAction="#cancelButton" prefHeight="26.0" prefWidth="137.0" text="Cancel" />
       <AnchorPane layoutX="72.0" layoutY="82.0" prefHeight="344.0" prefWidth="302.0" style="-fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 2;">
          <children>
-            <RadioButton fx:id="january" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" text="January">
+            <RadioButton fx:id="january" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" selected="true" text="January">
                <font>
                   <Font size="18.0" />
                </font>

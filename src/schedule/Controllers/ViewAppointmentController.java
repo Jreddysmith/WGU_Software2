@@ -82,17 +82,17 @@ public class ViewAppointmentController implements Initializable {
     }
 
     @FXML
+    public void allAppointments() throws IOException {
+        allAppointmentsButton();
+    }
+
+    @FXML
     public void weeklyAppointments() throws IOException {
 
     }
 
     @FXML
     public void monthlyAppointments() throws IOException {
-
-    }
-
-    @FXML
-    public void allAppointments() throws IOException {
 
     }
 

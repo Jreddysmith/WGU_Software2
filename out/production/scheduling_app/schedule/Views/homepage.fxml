@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="708.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Controllers.HomePageController">
+<AnchorPane prefHeight="708.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.Controllers.HomePageController">
    <children>
       <Text layoutX="182.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduling App" textAlignment="CENTER" wrappingWidth="492.81201171875">
          <font>
@@ -64,6 +64,5 @@
             <Button fx:id="appointment_costumers_report" layoutX="596.0" layoutY="11.0" mnemonicParsing="false" onAction="#appointmentCostumersReport" prefHeight="26.0" prefWidth="226.0" text="Appointment Costumers Report" />
          </children>
       </AnchorPane>
-      <Button fx:id="logout" layoutX="780.0" layoutY="16.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
    </children>
 </AnchorPane>

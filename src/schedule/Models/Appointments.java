@@ -81,6 +81,38 @@ public class Appointments {
         return appointmentsList;
     }
 
+    public static ObservableList<Appointment> getAppointmentsMonthly(String month) {
+        System.out.println("lets see if we can get the months" + month);
+
+        ObservableList<Appointment> appointmentsListByMonth = FXCollections.observableArrayList();
+
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        String appointmentQuery = "select type, COUNT(*) from U05wjs.appointment where monthname(start) = ? GROUP BY type";
+
+        try{
+            PreparedStatement appointmentListStatement = connectDB.prepareStatement(appointmentQuery);
+            appointmentListStatement.setString(1, month);
+            ResultSet appointmentListQuery = appointmentListStatement.executeQuery();
+
+
+            while (appointmentListQuery.next()) {
+//                String appointmentId = Integer.toString(appointmentListQuery.getInt("appointmentId"));
+                String type = appointmentListQuery.getString(1);
+                String count = Integer.toString(appointmentListQuery.getInt(2));
+                System.out.println("seee values" + type + count);
+
+                appointmentsListByMonth.add(new Appointment(type, count));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("this is the results back from the model" + appointmentsListByMonth);
+        return appointmentsListByMonth;
+    }
+
     public static void deleteAppointment(Appointment appointment){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();

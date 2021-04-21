@@ -14,8 +14,14 @@ public class Appointment {
     private String date;
     private String start;
     private String end;
+    private String count;
 
     public Appointment() {
+    }
+
+    public Appointment(String type, String count) {
+        this.type = type;
+        this.count = count;
     }
 
     public Appointment(String appointmentId, String customerId, String userId, String title, String description,
@@ -127,5 +133,13 @@ public class Appointment {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
     }
 }

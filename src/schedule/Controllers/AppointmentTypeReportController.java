@@ -70,36 +70,35 @@ public class AppointmentTypeReportController implements Initializable {
     @FXML
     private ToggleGroup monthGroup;
 
-
-
     @FXML
-    private void getAllAppointments() {table_appointment_type.setItems(Appointments.getAppointments());}
+    private void getJanuaryAtStart() {table_appointment_type.setItems(Appointments.getAppointmentsMonthly("January"));}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointment_type.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
-        getAllAppointments();
+        count.setCellValueFactory(new PropertyValueFactory<Appointment, String>("count"));
+        getJanuaryAtStart();
 
-        january.setUserData("january");
-        february.setUserData("february");
-        march.setUserData("march");
-        april.setUserData("april");
-        may.setUserData("may");
-        june.setUserData("june");
-        july.setUserData("july");
-        august.setUserData("august");
-        september.setUserData("september");
-        october.setUserData("october");
-        november.setUserData("november");
-        december.setUserData("december");
+        january.setUserData("January");
+        february.setUserData("February");
+        march.setUserData("March");
+        april.setUserData("April");
+        may.setUserData("May");
+        june.setUserData("June");
+        july.setUserData("July");
+        august.setUserData("August");
+        september.setUserData("September");
+        october.setUserData("October");
+        november.setUserData("November");
+        december.setUserData("December");
 
         monthGroup.selectedToggleProperty().addListener(((observableValue, oldToggle, newToggle) -> {
             if(monthGroup.getSelectedToggle() != null) {
                 System.out.println("lets see if this works " + monthGroup.getSelectedToggle().getUserData().toString());
+                String month = monthGroup.getSelectedToggle().getUserData().toString();
+                table_appointment_type.setItems(Appointments.getAppointmentsMonthly(month));
             }
         }));
-
-
     }
     @FXML
     void cancelButton(ActionEvent event) throws IOException{

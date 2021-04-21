@@ -275,11 +275,6 @@ public class HomePageController implements Initializable {
         stage.show();
     }
 
-    @FXML
-    public void logout() {
-
-    }
-
 
 
 }
