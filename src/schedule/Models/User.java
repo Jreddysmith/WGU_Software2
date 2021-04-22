@@ -1,23 +1,23 @@
 package schedule.Models;
 
 public class User {
-    private int userId;
+    private String userId;
     private String userName;
     private String userPassword;
-    private int userActive;
+    private String userActive;
 
-    public User(int userId, String userName, String userPassword, int userActive) {
+    public User(String userId, String userName, String userPassword, String userActive) {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
         this.userActive = userActive;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -37,11 +37,11 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public int getUserActive() {
+    public String getUserActive() {
         return userActive;
     }
 
-    public void setUserActive(int userActive) {
+    public void setUserActive(String userActive) {
         this.userActive = userActive;
     }
 }

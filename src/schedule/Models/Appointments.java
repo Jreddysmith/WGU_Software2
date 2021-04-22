@@ -5,7 +5,9 @@ import javafx.collections.ObservableList;
 import schedule.DatabaseConnection;
 
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class Appointments {
 
@@ -59,7 +61,7 @@ public class Appointments {
         try{
             Statement appointmentListStatement = connectDB.createStatement();
             ResultSet appointmentListQuery = appointmentListStatement.executeQuery(appointmentQuery);
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
 
 
             while (appointmentListQuery.next()) {
@@ -72,8 +74,8 @@ public class Appointments {
                 String contact = appointmentListQuery.getString(7);
                 String type = appointmentListQuery.getString(8);
                 String url = appointmentListQuery.getString(9);
-                String start = formatter.format(appointmentListQuery.getDate(10));
-                String end = formatter.format(appointmentListQuery.getDate(11));
+                String start = formatter.format(appointmentListQuery.getTimestamp(10));
+                String end = formatter.format(appointmentListQuery.getTimestamp(11));
 
                 weekList.add(new Appointment(appointmentId, customerId, userId, title, description, location, contact,
                         type, url, start, end));
@@ -187,6 +189,47 @@ public class Appointments {
         System.out.println("this is the results back from the model" + appointmentsListByMonth);
         return appointmentsListByMonth;
     }
+
+
+    public static ObservableList<Appointment> getConsultantAppointments(int consultantId) {
+        ObservableList<Appointment> matchedConsultant = FXCollections.observableArrayList();
+
+        DatabaseConnection conn = new DatabaseConnection();
+        Connection connDB = conn.getConnection();
+
+        String query = "SELECT * FROM U05wjs.appointment WHERE userId = ?";
+
+        try{
+            PreparedStatement statement = connDB.prepareStatement(query);
+            statement.setInt(1, consultantId);
+            ResultSet rs = statement.executeQuery();
+            DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
+
+            while (rs.next()) {
+                String appointmentId = Integer.toString(rs.getInt(1));
+                String customerId = Integer.toString(rs.getInt(2));
+                String userId = Integer.toString(rs.getInt(3));
+                String title = rs.getString(4);
+                String description = rs.getString(5);
+                String location = rs.getString(6);
+                String contact = rs.getString(7);
+                String type = rs.getString(8);
+                String url = rs.getString(9);
+                String start = formatter.format(rs.getDate(10));
+                String end = formatter.format(rs.getDate(11));
+
+                matchedConsultant.add(new Appointment(appointmentId, customerId, userId, title, description, location, contact,
+                        type, url, start, end));
+
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return matchedConsultant;
+    }
+
+
 
 //    public static ObservableList<Appointment> getCustomerCountInMonth(String month) {
 //        System.out.println("lets see if we can get the months" + month);

@@ -6,15 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import schedule.Models.Appointment;
-import schedule.Models.Appointments;
-import schedule.Models.Customer;
+import schedule.Models.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,10 +51,12 @@ public class ConsultantAppointmentReportController implements Initializable {
     private Button cancel;
 
     @FXML
-    private ComboBox<Customer> customers;
+    private ComboBox<User> consultant;
 
     @FXML
     public void getAllAppointments(){consultant_table.setItems(Appointments.getAppointments());}
+
+    @FXML void getAllUsers(){consultant.setItems(Users.getAllUsers());}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -74,6 +71,29 @@ public class ConsultantAppointmentReportController implements Initializable {
         end.setCellValueFactory(new PropertyValueFactory<Appointment, String>("end"));
         System.out.println("In the initialize for all Appointments table");
         getAllAppointments();
+        getAllUsers();
+
+        consultant.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+                    System.out.println(consultant.getValue().getUserId());
+                    int userId = Integer.parseInt(consultant.getValue().getUserId());
+                    consultant_table.setItems(Appointments.getConsultantAppointments(userId));
+                }
+        );
+
+        consultant.setCellFactory(customerListView -> {
+            return new ListCell<User>(){
+                @Override
+                protected void updateItem(User user, boolean empty) {
+                    super.updateItem(user, empty);
+                    if(user == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(user.getUserName());
+                    }
+
+                }
+            };
+        });
 
     }
 
