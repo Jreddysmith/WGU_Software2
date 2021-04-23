@@ -6,6 +6,10 @@ import schedule.DatabaseConnection;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.sql.Timestamp;
 
 public class Customers {
 
@@ -171,21 +175,64 @@ public class Customers {
     }
 
 
-    public static void getModifyCustomer(Customer customer) {
+    public static void updateCustomer(int customerId, int addressId, String customerName, String customerAddress1, String customerAddress2,
+                                      String customerCity, String customerCountry, String customerZipcode, String customerNumber,
+                                      int customerActive, int cityId, int countryId) {
+
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+        String formatDateTime = now.format(format);
 
-//        String customerQuery = "select c.customerId as customerId, cu.countryId as countryId,  ci.cityId as cityId, " +
-//                "a.addressId as addressId from U05wjs.customer as c join U05wjs.country cu on c.addressId=";
 
-        String customerQuery = "select U";
+        String updateCustomerTable = "update U05wjs.customer set customerName=?, active=?, lastUpdate=?, lastUpdateBy=?" +
+                " where customerId=?";
+
+        String updateAddressTable = "update U05wjs.address set address=?, address2=?, postalCode=?, phone=?, " +
+                "lastUpdate=?, lastUpdateBy=? where addressId=?";
+
+        String updateCityTable = "update U05wjs.city set city=?, lastUpdate=?, lastUpdateBy=? where cityId=?";
+
+        String updateCountryTable = "update U05wjs.country set country=?, lastUpdate=?, lastUpdateBy=? where countryId=?";
+
         try {
-            Statement getCustomerStatement= connectDB.createStatement();
-            ResultSet rs = getCustomerStatement.executeQuery(customerQuery);
+            PreparedStatement customerTableStmt = connectDB.prepareStatement(updateCustomerTable);
+            customerTableStmt.setString(1, customerName);
+            customerTableStmt.setInt(2, customerActive);
+            customerTableStmt.setTimestamp(3, Timestamp.valueOf(formatDateTime));
+            customerTableStmt.setString(4, "Super Loser");
+            customerTableStmt.setInt(5, customerId);
+            customerTableStmt.executeUpdate();
 
-            while (rs.next()) {
+            PreparedStatement addressTableStmt = connectDB.prepareStatement(updateAddressTable);
+            addressTableStmt.setString(1, customerAddress1);
+            addressTableStmt.setString(2, customerAddress2);
+            addressTableStmt.setString(3, customerZipcode);
+            addressTableStmt.setString(4, customerNumber);
+            addressTableStmt.setTimestamp(5, Timestamp.valueOf(formatDateTime));
+            addressTableStmt.setString(6, "mee");
+            addressTableStmt.setInt(7, addressId);
+            addressTableStmt.executeUpdate();
 
-            }
+            PreparedStatement cityTableStmt = connectDB.prepareStatement(updateCityTable);
+            cityTableStmt.setString(1, customerCity);
+            cityTableStmt.setTimestamp(2, Timestamp.valueOf(formatDateTime));
+            cityTableStmt.setString(3, "meeee");
+            cityTableStmt.setInt(4, cityId);
+            cityTableStmt.executeUpdate();
+
+            PreparedStatement countryTableStmt = connectDB.prepareStatement(updateCountryTable);
+            countryTableStmt.setString(1, customerCountry);
+            countryTableStmt.setTimestamp(2, Timestamp.valueOf(formatDateTime));
+            countryTableStmt.setString(3, "youngman");
+            countryTableStmt.setInt(4, countryId);
+            countryTableStmt.executeUpdate();
+
+            System.out.println("lets hope this updates");
+
+
+
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -48,12 +48,16 @@ public class CustomerController {
     private Button save_button;
 
     @FXML
+    private Button update_button;
+
+    @FXML
     private Button cancel_button;
 
 
 
     @FXML
     public void saveButton(ActionEvent event) throws IOException {
+        update_button.setVisible(false);
         String customerName = customer_name.getText();
         String customerAddress1 = customer_address_1.getText();
         String customerAddress2 = customer_address_2.getText();
@@ -101,8 +105,7 @@ public class CustomerController {
         System.out.println(customer.getCustomerId());
         System.out.println(customer.getCustomerName());
         System.out.println(customer.getAddress());
-//
-//        customer_id.setText(customer.getCustomerId());
+
         customer_name.setText(customer.getCustomerName());
         customer_address_1.setText(customer.getAddress());
         customer_address_2.setText(customer.getAddress2());
@@ -110,10 +113,72 @@ public class CustomerController {
         customer_country.setText(customer.getCountry());
         customer_zipcode.setText(customer.getPostalCode());
         customer_number.setText(customer.getPhone());
-        customer_active.setText(customer.getActive());
+        if(customer.getActive() == "1") {
+            active_yes.isSelected();
+        }
+        if(customer.getActive() == "0") {
+            active_no.isSelected();
+        }
+        save_button.setVisible(false);
+
+        update_button.setOnAction((e) -> {
+        int customerId = Integer.parseInt(customer.getCustomerId());
+        String customerName = customer_name.getText();
+        String customerAddress1 = customer_address_1.getText();
+        String customerAddress2 = customer_address_2.getText();
+        String customerCity = customer_city.getText();
+        String customerCountry = customer_country.getText();
+        String customerZipcode = customer_zipcode.getText();
+        String customerNumber = customer_number.getText();
+        int customerActive = 0;
+        if (active_yes.isSelected()){ customerActive = 1; }
+        if (active_no.isSelected()){customerActive = 0; }
+
+        int customerAddressId = Integer.parseInt(customer.getAddressId());
+        int customerCityId = Integer.parseInt(customer.getCityId());
+        int customerCountryId = Integer.parseInt(customer.getCountryId());
+
+        Customers.updateCustomer(customerId, customerAddressId, customerName, customerAddress1, customerAddress2, customerCity, customerCountry,
+                customerZipcode, customerNumber, customerActive, customerCityId, customerCountryId);
 
 
+        Stage stage;
+        stage = (Stage)update_button.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            stage.setScene(new Scene(root));
+        stage.show();
+
+        });
     }
 
+    @FXML
+    public void updateButton(ActionEvent event) throws IOException {
+//        String customerName = customer_name.getText();
+//        String customerAddress1 = customer_address_1.getText();
+//        String customerAddress2 = customer_address_2.getText();
+//        String customerCity = customer_city.getText();
+//        String customerCountry = customer_country.getText();
+//        String customerZipcode = customer_zipcode.getText();
+//        String customerNumber = customer_number.getText();
+//        int customerActive = 0;
+//        if (active_yes.isSelected()){ customerActive = 1; }
+//        if (active_no.isSelected()){customerActive = 0; }
+//
+//
+//        Stage stage;
+//        stage = (Stage)update_button.getScene().getWindow();
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
+//        Parent root = loader.load();
+//        stage.setScene(new Scene(root));
+//        stage.show();
 
+    }
 }

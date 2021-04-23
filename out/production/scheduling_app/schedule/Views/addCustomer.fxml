@@ -82,5 +82,10 @@
          </toggleGroup>
       </RadioButton>
       <RadioButton fx:id="active_no" layoutX="427.0" layoutY="480.0" mnemonicParsing="false" text="No" toggleGroup="$activeGroup" />
+      <Button fx:id="update_button" layoutX="253.0" layoutY="552.0" mnemonicParsing="false" onAction="#updateButton" prefHeight="33.0" prefWidth="69.0" text="Update">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
