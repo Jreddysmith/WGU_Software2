@@ -20,7 +20,10 @@ import schedule.Models.Customers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.text.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -153,52 +156,61 @@ public class AppointmentController implements Initializable {
 
     @FXML
     public void saveButton(ActionEvent event) throws IOException {
+        DecimalFormat df = new DecimalFormat("00");
+//        System.out.println(String.format("%02d", start_hour.getValue()));
 
         LocalDate dateValue = date_picker.getValue();
-        String myFormatedDate = dateValue.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
-        System.out.println(myFormatedDate);
+        String myFormatedDate = dateValue.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        int userId = Integer.parseInt(user_id.getText());
+        int customerId = Integer.parseInt(customer_id_box.getValue().getCustomerId());
+        String titleField = title.getText();
+        String descriptionField = description.getText();
+        String locationField = location.getText();
+        String contactField = contact.getText();
+        String typeField = type.getText();
+        String urlField = url.getText();
+
+        String startHour = df.format(start_hour.getValue());
+        String startMin = df.format(start_min.getValue());
+        String startPeriod = start_period.getValue();
+        String dateStartTime = myFormatedDate.concat(" ").concat(startHour).concat(":").concat(startMin).concat(":")
+                .concat("00").concat(" ").concat(startPeriod).concat(" ").concat("UTC");
+
+        String endHour = df.format(end_hour.getValue());
+        String endMin = df.format(end_min.getValue());
+        String endPeriod = end_period.getValue();
+        String dateEndTime = myFormatedDate.concat(" ").concat(endHour).concat(":").concat(endMin).concat(":").concat("00")
+                .concat(" ").concat(endPeriod).concat(" ").concat("UTC");
+
+        DateFormat dateTimeFormating = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss aa");
+        DateFormat outputformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date dateStart = null;
+        Date dateEnd = null;
+        String outputStart = null;
+        String outputEnd = null;
 
 
+        try{
+            dateStart = dateTimeFormating.parse(dateStartTime);
+            dateEnd = dateTimeFormating.parse(dateEndTime);
 
-        System.out.println(start_hour.getValue());
-        System.out.println(start_min.getValue());
-//        System.out.println(start_period);
+            outputStart = outputformat.format(dateStart);
+            outputEnd = outputformat.format(dateEnd);
+        } catch (ParseException pe) {
+            pe.printStackTrace();
+        }
 
-        System.out.println(end_hour.getValue());
-        System.out.println(end_min.getValue());
-//        System.out.println(end_period);
+        new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
+                typeField, urlField, outputStart, outputEnd);
 
-        System.out.println(customer_id_box.getValue().getCustomerId());
-
-
-
-
-//        int customerId = Integer.parseInt(customer_id.getText());
-//        int userId = Integer.parseInt(user_id.getText());
-//        String titleField = title.getText();
-//        String descriptionField = description.getText();
-//        String locationField = location.getText();
-//        String contactField = contact.getText();
-//        String typeField = type.getText();
-//        String urlField = url.getText();
-//        String startField = start.getText();
-//        String endField = end.getText();
-
-
-//
-//        new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
-//                typeField, urlField, startField, endField);
-//
-//        System.out.println("back to controller after appointment save");
-//
-//        Stage stage;
-//        stage = (Stage)save_button.getScene().getWindow();
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
-//        Parent root = loader.load();
-//        stage.setScene(new Scene(root));
-//        stage.show();
-
+        Stage stage;
+        stage = (Stage)save_button.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
+        Parent root = loader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML

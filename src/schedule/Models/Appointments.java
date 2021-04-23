@@ -7,6 +7,8 @@ import schedule.DatabaseConnection;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Locale;
 
 public class Appointments {
@@ -88,11 +90,12 @@ public class Appointments {
 
     public void addAppointment(int customerId, int userId, String title, String description, String location, String contact,
                                String type, String url, String start, String end ) {
+
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
         String insertAppointment = "insert into U05wjs.appointment (customerId, userId, title, description, location, contact, type, " +
-                "url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) values (?, ?, ?, ?, ?, ?, ?, ?, sysdate(), sysdate(), sysdate()," +
+                "url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate()," +
                 " 'hummm', current_timestamp(), 'nobody')";
 
         try {
@@ -105,8 +108,8 @@ public class Appointments {
             appointmentStatement.setString(6, contact);
             appointmentStatement.setString(7, type);
             appointmentStatement.setString(8, url);
-//            appointmentStatement.setString(9, start);
-//            appointmentStatement.setString(10, end);
+            appointmentStatement.setString(9, start);
+            appointmentStatement.setString(10, end);
             appointmentStatement.executeUpdate();
             ResultSet appointmentOutput = appointmentStatement.getGeneratedKeys();
 
