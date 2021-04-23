@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import schedule.DatabaseConnection;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -30,17 +31,24 @@ public class LoginController {
 
 
     public void loginButton(ActionEvent event) {
+        String userName = user_name_field.getText();
+        String userPassword = password_field.getText();
+
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String verifyLogin = "SELECT count(1) FROM U05wjs.user WHERE userName = '" + user_name_field.getText() + "' AND password ='" + password_field.getText() + "'";
+        String verifyLogin = "SELECT count(1) FROM U05wjs.user WHERE userName = ? AND password = ?";
 
         try {
-            Statement statement = connectDB.createStatement();
-            ResultSet queryOutput = statement.executeQuery(verifyLogin);
+            PreparedStatement userLoginStmt = connectDB.prepareStatement(verifyLogin);
+            userLoginStmt.setString(1, userName);
+            userLoginStmt.setString(2, userPassword);
+            ResultSet userResult = userLoginStmt.executeQuery();
 
-            while (queryOutput.next()) {
-                if(queryOutput.getInt(1) == 1) {
+            while (userResult.next()) {
+                if(userResult.getInt(1) == 1) {
+
+
                     System.out.println("Congrats");
 
                     Stage stage = new Stage();

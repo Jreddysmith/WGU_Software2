@@ -1,6 +1,7 @@
 package schedule.Controllers;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,9 +12,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
-public class CustomerController {
+public class CustomerController implements Initializable {
 
     @FXML
     private TextField customer_id;
@@ -53,11 +56,15 @@ public class CustomerController {
     @FXML
     private Button cancel_button;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
 
 
     @FXML
     public void saveButton(ActionEvent event) throws IOException {
-        update_button.setVisible(false);
         String customerName = customer_name.getText();
         String customerAddress1 = customer_address_1.getText();
         String customerAddress2 = customer_address_2.getText();
@@ -99,7 +106,7 @@ public class CustomerController {
         stage.show();
     }
 
-    public void getCustomer (Customer customer) {
+    public void getCustomer(Customer customer) {
         main_label.setText("Modify Customer");
 
         System.out.println(customer.getCustomerId());
@@ -119,7 +126,6 @@ public class CustomerController {
         if(customer.getActive() == "0") {
             active_no.isSelected();
         }
-        save_button.setVisible(false);
 
         update_button.setOnAction((e) -> {
         int customerId = Integer.parseInt(customer.getCustomerId());

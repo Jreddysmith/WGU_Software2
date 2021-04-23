@@ -139,11 +139,34 @@ public class Customers {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String deleteQuery = "delete from U05wjs.customer Where customerId = ?";
+        String deleteCustomerTable = "delete from U05wjs.customer Where customerId = ?";
+
+        String deleteAddressTable = "delete from U05wjs.address where addressId = ?";
+
+//        String deleteCityTable = "delete from U0wjs.city where cityId = ?";
+
+//        String deleteCountryTable = "delete from U0wjs.country where country = ?";
+
         try {
-            PreparedStatement customerStatement = connectDB.prepareStatement(deleteQuery);
+            PreparedStatement customerStatement = connectDB.prepareStatement(deleteCustomerTable);
             customerStatement.setString(1, customer.getCustomerId());
+            System.out.println(customer.getCustomerId());
             customerStatement.executeUpdate();
+
+            PreparedStatement addressTable = connectDB.prepareStatement(deleteAddressTable);
+            addressTable.setInt(1, Integer.parseInt(customer.getAddressId()));
+            System.out.println(customer.getAddressId());
+            addressTable.executeUpdate();
+
+//            PreparedStatement cityTable = connectDB.prepareStatement(deleteCityTable);
+//            cityTable.setInt(1, Integer.parseInt(customer.getCityId()));
+//            System.out.println(customer.getCityId());
+//            cityTable.executeUpdate();
+
+//            PreparedStatement countryTable = connectDB.prepareStatement(deleteCountryTable);
+//            countryTable.setInt(1, Integer.parseInt(customer.getCountryId()));
+//            System.out.println(customer.getCountryId());
+//            countryTable.executeUpdate();
 
 
         } catch (SQLException e) {
