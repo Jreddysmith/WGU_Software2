@@ -1,5 +1,10 @@
 package schedule.Models;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.time.temporal.TemporalAccessor;
+import java.util.Locale;
+
 public class Appointment {
 
     private String appointmentId;
@@ -12,8 +17,8 @@ public class Appointment {
     private String type;
     private String url;
     private String date;
-    private String start;
-    private String end;
+    private Timestamp start;
+    private Timestamp end;
     private String count;
 
     public Appointment() {
@@ -33,7 +38,7 @@ public class Appointment {
     }
 
     public Appointment(String appointmentId, String customerId, String userId, String title, String description,
-                       String location, String contact, String type, String url, String start, String end) {
+                       String location, String contact, String type, String url, Timestamp start, Timestamp end) {
         this.appointmentId = appointmentId;
         this.customerId = customerId;
         this.userId = userId;
@@ -119,19 +124,19 @@ public class Appointment {
         this.url = url;
     }
 
-    public String getStart() {
+    public Timestamp getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(Timestamp start) {
         this.start = start;
     }
 
-    public String getEnd() {
+    public Timestamp getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
+    public void setEnd(Timestamp end) {
         this.end = end;
     }
 
@@ -149,5 +154,13 @@ public class Appointment {
 
     public void setCount(String count) {
         this.count = count;
+    }
+
+    public String getFormattedStartTime() {
+        return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault()).format(start);
+    }
+
+    public String getFormattedEndTime() {
+        return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault()).format(end);
     }
 }

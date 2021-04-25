@@ -13,6 +13,11 @@ public class User {
         this.userActive = userActive;
     }
 
+    public User(String userId, String userName) {
+        this.userId = userId;
+        this.userName = userName;
+    }
+
     public String getUserId() {
         return userId;
     }

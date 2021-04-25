@@ -81,8 +81,8 @@ public class ViewAppointmentController implements Initializable {
         description.setCellValueFactory(new PropertyValueFactory<Appointment, String>("description"));
         location.setCellValueFactory(new PropertyValueFactory<Appointment, String>("location"));
         contact.setCellValueFactory(new PropertyValueFactory<Appointment, String>("contact"));
-        start.setCellValueFactory(new PropertyValueFactory<Appointment, String>("start"));
-        end.setCellValueFactory(new PropertyValueFactory<Appointment, String>("end"));
+        start.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedStartTime"));
+        end.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedEndTime"));
         allAppointmentsButton();
 
     }

@@ -7,6 +7,7 @@ import schedule.DatabaseConnection;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Locale;
@@ -19,12 +20,12 @@ public class Appointments {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String appointmentQuery = "select * from U05wjs.appointment where start> now() - INTERVAL 12 month";
+//        String appointmentQuery = "select * from U05wjs.appointment where start> now() - INTERVAL 12 month";
+        String appointmentQuery = "select * from U05wjs.appointment where YEAR(start) = YEAR(NOW()) AND MONTH(start)=MONTH(NOW())";
 
         try{
             Statement appointmentListStatement = connectDB.createStatement();
             ResultSet appointmentListQuery = appointmentListStatement.executeQuery(appointmentQuery);
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 
 
             while (appointmentListQuery.next()) {
@@ -37,8 +38,8 @@ public class Appointments {
                 String contact = appointmentListQuery.getString(7);
                 String type = appointmentListQuery.getString(8);
                 String url = appointmentListQuery.getString(9);
-                String start = formatter.format(appointmentListQuery.getDate(10));
-                String end = formatter.format(appointmentListQuery.getDate(11));
+                Timestamp start = appointmentListQuery.getTimestamp(10);
+                Timestamp end = appointmentListQuery.getTimestamp(11);
 
                 monthList.add(new Appointment(appointmentId, customerId, userId, title, description, location, contact,
                         type, url, start, end));
@@ -54,16 +55,18 @@ public class Appointments {
     public static ObservableList<Appointment> appointmentsWeekly() {
 
         ObservableList<Appointment> weekList = FXCollections.observableArrayList();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Instant instant2 = timestamp.toInstant();
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String appointmentQuery = "select * from U05wjs.appointment where start> now() - INTERVAL 52 week";
+//        String appointmentQuery = "select * from U05wjs.appointment where start> now() - INTERVAL 52 week";
+        String appointmentQuery = "select * from U05wjs.appointment Where WEEKOFYEAR(start) = WEEKOFYEAR(NOW())";
 
         try{
             Statement appointmentListStatement = connectDB.createStatement();
             ResultSet appointmentListQuery = appointmentListStatement.executeQuery(appointmentQuery);
-            DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
 
 
             while (appointmentListQuery.next()) {
@@ -76,8 +79,8 @@ public class Appointments {
                 String contact = appointmentListQuery.getString(7);
                 String type = appointmentListQuery.getString(8);
                 String url = appointmentListQuery.getString(9);
-                String start = formatter.format(appointmentListQuery.getTimestamp(10));
-                String end = formatter.format(appointmentListQuery.getTimestamp(11));
+                Timestamp start = appointmentListQuery.getTimestamp(10);
+                Timestamp end = appointmentListQuery.getTimestamp(11);
 
                 weekList.add(new Appointment(appointmentId, customerId, userId, title, description, location, contact,
                         type, url, start, end));
@@ -134,7 +137,6 @@ public class Appointments {
         try{
             Statement appointmentListStatement = connectDB.createStatement();
             ResultSet appointmentListQuery = appointmentListStatement.executeQuery(appointmentQuery);
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 
             while (appointmentListQuery.next()) {
                 String appointmentId = Integer.toString(appointmentListQuery.getInt(1));
@@ -146,8 +148,8 @@ public class Appointments {
                 String contact = appointmentListQuery.getString(7);
                 String type = appointmentListQuery.getString(8);
                 String url = appointmentListQuery.getString(9);
-                String start = formatter.format(appointmentListQuery.getDate(10));
-                String end = formatter.format(appointmentListQuery.getDate(11));
+                Timestamp start = appointmentListQuery.getTimestamp(10);
+                Timestamp end = appointmentListQuery.getTimestamp(11);
 
                 appointmentsList.add(new Appointment(appointmentId, customerId, userId, title, description, location, contact,
                         type, url, start, end));
@@ -218,8 +220,8 @@ public class Appointments {
                 String contact = rs.getString(7);
                 String type = rs.getString(8);
                 String url = rs.getString(9);
-                String start = formatter.format(rs.getDate(10));
-                String end = formatter.format(rs.getDate(11));
+                Timestamp start = rs.getTimestamp(10);
+                Timestamp end = rs.getTimestamp(11);
 
                 matchedConsultant.add(new Appointment(appointmentId, customerId, userId, title, description, location, contact,
                         type, url, start, end));

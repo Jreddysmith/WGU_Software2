@@ -8,6 +8,7 @@ module scheduling_app {
     opens schedule.Controllers;
 //    exports schedule.Models;
     opens schedule.Models;
+    exports schedule.Models;
 
     opens schedule;
 }

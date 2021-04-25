@@ -25,11 +25,10 @@ import java.text.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.time.format.FormatStyle;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -87,6 +86,9 @@ public class AppointmentController implements Initializable {
     private Button close_button;
 
     @FXML
+    private Button update_button;
+
+    @FXML
     private Label main_label;
 
     @FXML
@@ -94,7 +96,7 @@ public class AppointmentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(customer_id_box + "starttttt");
+        //built lambda to make it easy to scroll through customers besides making a foreach loop.
         customer_id_box.setCellFactory(customerListView -> {
             return new ListCell<>(){
                 @Override
@@ -227,13 +229,46 @@ public class AppointmentController implements Initializable {
 
     public void getAppointment(Appointment appointment) {
         main_label.setText("Modify Appointment");
+        save_button.setVisible(false);
 
-        System.out.println(appointment.getAppointmentId());
-        System.out.println(appointment.getCustomerId());
-        System.out.println(appointment.getUserId());
+        SimpleDateFormat dateForPicker = new SimpleDateFormat("yyyy-MM-dd");
+        String stringForDatePicker = dateForPicker.format(appointment.getStart());
+        System.out.println(stringForDatePicker);
+
+        SimpleDateFormat startHour = new SimpleDateFormat("hh");
+        String stringStartHour = startHour.format(appointment.getStart());
+        System.out.println(stringStartHour);
+
+        SimpleDateFormat startMin = new SimpleDateFormat("mm");
+        String stringStartMin = startMin.format(appointment.getStart());
+        System.out.println(stringStartMin);
+
+        SimpleDateFormat startPeriod = new SimpleDateFormat("aa");
+        String stringStartPeriod = startPeriod.format(appointment.getStart());
+        System.out.println(stringStartPeriod);
+
+        SimpleDateFormat endHour = new SimpleDateFormat("hh");
+        String stringEndHour = endHour.format(appointment.getEnd());
+        System.out.println(stringEndHour);
+
+        SimpleDateFormat endMin = new SimpleDateFormat("mm");
+        String stringEndMin = endMin.format(appointment.getEnd());
+        System.out.println(stringEndMin);
+
+        SimpleDateFormat endPeriod = new SimpleDateFormat("aa");
+        String stringEndPeriod = endPeriod.format(appointment.getEnd());
+        System.out.println(stringEndPeriod);
+
+        customer_id_box.getItems().forEach(e -> {
+            if(e.getCustomerId().equals(appointment.getCustomerId())){
+//                customer_id_box.setValue(e.getCustomerName());
+
+            }
+        });
+        System.out.println(customer_id_box.getItems());
 
 
-//        customer_id.setText(appointment.getCustomerId());
+//        customer_id_box.setValue(appointment.getCustomerId());
         user_id.setText(appointment.getUserId());
         title.setText(appointment.getTitle());
         description.setText(appointment.getDescription());
@@ -241,12 +276,22 @@ public class AppointmentController implements Initializable {
         contact.setText(appointment.getContact());
         type.setText(appointment.getType());
         url.setText(appointment.getUrl());
-        start.setText(appointment.getStart());
-        end.setText(appointment.getEnd());
+        date_picker.setValue(LocalDate.parse(stringForDatePicker));
+        start_hour.setValue(Integer.valueOf(stringStartHour));
+        start_min.setValue(Integer.valueOf(stringStartMin));
+        start_period.setValue(stringStartPeriod);
+        end_hour.setValue(Integer.valueOf(stringEndHour));
+        end_min.setValue(Integer.valueOf(stringEndMin));
+        end_period.setValue(stringEndPeriod);
     }
 
     @FXML
     public void datePicker(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void updateButton(ActionEvent event){
 
     }
 }

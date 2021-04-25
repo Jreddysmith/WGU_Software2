@@ -90,7 +90,33 @@ public class Customers {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public Customer getSingleCustomer(int custId) {
+
+        DatabaseConnection connNow = new DatabaseConnection();
+        Connection connDB = connNow.getConnection();
+
+        String customerIdQuery = "select * from U05wjs.customer where customerId = ?";
+
+        try{
+            PreparedStatement singCust = connDB.prepareStatement(customerIdQuery);
+            singCust.setInt(1, custId);
+            ResultSet rs = singCust.executeQuery();
+
+            if(rs.next()) {
+                String customerId = Integer.toString(rs.getInt("customerId"));
+                String customerName = rs.getString("customerName");
+
+                Customer singleCustomer = new Customer(customerId, customerName);
+                return singleCustomer;
+            }
+            throw new RuntimeException("Customer not found: " + custId);
+
+
+        } catch (Exception e) {
+           throw new RuntimeException(e);
+        }
 
 
     }

@@ -12,17 +12,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import schedule.Models.Appointment;
-import schedule.Models.Appointments;
-import schedule.Models.Customer;
-import schedule.Models.Customers;
+import schedule.Models.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class HomePageController implements Initializable {
-
 
     @FXML
     private Button customer_add;
@@ -107,10 +103,11 @@ public class HomePageController implements Initializable {
         appointment_user_id.setCellValueFactory(new PropertyValueFactory<Appointment, String>("userId"));
         appointment_customer_id.setCellValueFactory(new PropertyValueFactory<Appointment, String>("customerId"));
         appointment_title.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
-        appointment_start.setCellValueFactory(new PropertyValueFactory<Appointment, String>("start"));
-        appointment_end.setCellValueFactory(new PropertyValueFactory<Appointment, String>("end"));
+        appointment_start.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedStartTime"));
+        appointment_end.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedEndTime"));
         System.out.println("In the initialize for appointment Table");
         updateAppointmentList();
+
 
     }
 
@@ -276,5 +273,9 @@ public class HomePageController implements Initializable {
     }
 
 
+    public void getActiveUser(User activeUser) {
 
+        System.out.println(activeUser.getUserName());
+
+    }
 }
