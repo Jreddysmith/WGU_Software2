@@ -5,6 +5,7 @@ import schedule.exceptions.ValidationException;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 
@@ -19,7 +20,7 @@ public class Appointment {
     private String contact;
     private String type;
     private String url;
-    private String date;
+    private LocalDate date;
     private Timestamp start;
     private Timestamp end;
     private String count;
@@ -176,11 +177,11 @@ public class Appointment {
         this.end = end;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -210,12 +211,12 @@ public class Appointment {
 
 
     public void validate() throws ValidationException {
-        if(getUserId().isEmpty()){
-            throw new ValidationException("User ID can not be empty");
-        }
-        if(getCustomerId().isEmpty()) {
-            throw new ValidationException("Customer ID can not be empty");
-        }
+//        if(getUserId() == null){
+//            throw new ValidationException("User ID can not be empty");
+//        }
+//        if(getCustomerId().isEmpty()) {
+//            throw new ValidationException("Customer ID can not be empty");
+//        }
         if (getTitle().isEmpty() || getTitle().length() < 4) {
             throw new ValidationException("Title field can not be empty or less then 4 Characters");
         }
@@ -234,11 +235,11 @@ public class Appointment {
         if(getUrl().isEmpty() || getUrl().length() < 5) {
             throw new ValidationException("Url field can not be empty or less then 5 Characters");
         }
-        if(getStart() == null) {
-            throw new ValidationException("Start date and time can not be empty");
-        }
-        if(getEnd() == null) {
-            throw new ValidationException("End date and time can not be empty");
-        }
+//        if(getStart() == null) {
+//            throw new ValidationException("Start date and time can not be empty");
+//        }
+//        if(getEnd() == null) {
+//            throw new ValidationException("End date and time can not be empty");
+//        }
     }
 }

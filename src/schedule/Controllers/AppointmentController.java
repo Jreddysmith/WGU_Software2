@@ -9,23 +9,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.w3c.dom.Text;
 import schedule.Models.*;
 import schedule.exceptions.ValidationException;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.text.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,21 +28,21 @@ import java.util.stream.IntStream;
 public class AppointmentController implements Initializable {
 
     @FXML
-    private ComboBox<Customer> customer_id_box;
+    private ComboBox<Integer> customer_id_box;
     @FXML
-    private ComboBox<User> user_id_box;
+    private ComboBox<Integer> user_id_box;
+//    @FXML
+//    private ComboBox<String> start_period;
     @FXML
-    private ComboBox<String> start_period;
+    private ComboBox<String> start_hour;
     @FXML
-    private ComboBox<Integer> start_hour;
+    private ComboBox<String> start_min;
+//    @FXML
+//    private ComboBox<String> end_period;
     @FXML
-    private ComboBox<Integer> start_min;
+    private ComboBox<String> end_hour;
     @FXML
-    private ComboBox<String> end_period;
-    @FXML
-    private ComboBox<Integer> end_hour;
-    @FXML
-    private ComboBox<Integer> end_min;
+    private ComboBox<String> end_min;
 
     @FXML
     private TextField title;
@@ -91,88 +86,78 @@ public class AppointmentController implements Initializable {
     @FXML
     private TextField update_box;
 
-    @FXML
-    public void populateCustomerBox() {customer_id_box.setItems(Customers.getCustomers());}
+//    @FXML
+//    public void populateCustomerBox() {customer_id_box.setItems(Customers.getCustomers());}
 
-    @FXML
-    public void populateUserBox() {user_id_box.setItems(Users.getAllUsers());}
+//    @FXML
+//    public void populateUserBox() {user_id_box.setItems(Users.getAllUsers());}
 
     private User activeUser = User.currentUser;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //built lambda to make it easy to scroll through customers besides making a foreach loop.
-        customer_id_box.setCellFactory(customerListView -> {
-            return new ListCell<>(){
-                @Override
-                protected void updateItem(Customer customer, boolean empty) {
-                    super.updateItem(customer, empty);
-                    if(customer == null || empty) {
-                        setText(null);
-                    } else {
 
-                        setText(customer.getCustomerName());
-
-
-                    }
-
-                }
-            };
+        Users.getAllUsers().forEach(user -> {
+            user_id_box.getItems().add(Integer.valueOf(user.getUserId()));
         });
 
-        user_id_box.setCellFactory(customerListView -> {
-            return new ListCell<>(){
-                @Override
-                protected void updateItem(User user, boolean empty) {
-                    super.updateItem(user, empty);
-                    if(user == null || empty) {
-                        setText(null);
-                    } else {
-
-                        setText(user.getUserName());
-
-
-                    }
-
-                }
-            };
+        Customers.getCustomers().forEach(customer -> {
+            customer_id_box.getItems().add(Integer.valueOf(customer.getCustomerId()));
         });
 
-
-
-        Callback<ListView<Integer>, ListCell<Integer>> paddedView = integerListView -> new ListCell<>() {
-            @Override
-            protected void updateItem(Integer integer, boolean empty) {
-                super.updateItem(integer, empty);
-                if (integer == null || empty) {
-                    setText(null);
-                } else {
-                    setText(String.format("%02d", integer));
-                }
-            }
-        };
-        start_hour.setCellFactory(paddedView);
-        start_min.setCellFactory(paddedView);
-        end_hour.setCellFactory(paddedView);
-        end_min.setCellFactory(paddedView);
-
-        start_hour.setItems(intRange(1,12));
-        start_min.setItems(intRange(0,59));
-        end_hour.setItems(intRange(1,12));
-        end_min.setItems(intRange(0,59));
-        populateCustomerBox();
-        populateUserBox();
-
-
-        start_period.getItems().addAll("AM", "PM");
-        end_period.getItems().addAll("AM", "PM");
+        start_hour.getItems().addAll("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14",
+        "15", "16", "17", "18", "19", "20", "21", "22", "23", "24");
+        end_hour.getItems().addAll("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14",
+                "15", "16", "17", "18", "19", "20", "21", "22", "23", "24");
+        start_min.getItems().addAll("15", "30", "45");
+        end_min.getItems().addAll("15", "30", "45");
+//        start_period.getItems().addAll("AM", "PM");
+//        end_period.getItems().addAll("AM", "PM");
 
 
     }
+    public void validateDate(LocalDate pickingDate) throws IOException, ValidationException {
+        if(pickingDate == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Validation Error");
+            alert.setHeaderText("Validation Error");
+            alert.setContentText("You must pick a date");
+            alert.showAndWait();
+            throw new ValidationException("You have to pick a date");
+        }
+    }
 
-    private ObservableList<Integer> intRange(int start, int end) {
-        List<Integer> L = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
-        return FXCollections.observableArrayList(L);
+    public void validateTime(String time) throws IOException, ValidationException {
+        if(time == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Validation Error");
+            alert.setHeaderText("Validation Error");
+            alert.setContentText("You have to pick a start and end time");
+            alert.showAndWait();
+            throw new ValidationException("You have to pick a start and end time");
+        }
+    }
+
+    public void validateUserId(Integer userId) throws IOException, ValidationException{
+        if(userId == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Validation Error");
+            alert.setHeaderText("Validation Error");
+            alert.setContentText("You must pick a User ID");
+            alert.showAndWait();
+            throw new ValidationException("You have to pick a User ID");
+        }
+    }
+
+    public void validateCustomerId(Integer customerId) throws IOException, ValidationException{
+        if(customerId == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Validation Error");
+            alert.setHeaderText("Validation Error");
+            alert.setContentText("You must pick a Customer ID");
+            alert.showAndWait();
+            throw new ValidationException("You have to pick a Customer ID");
+        }
     }
 
 
@@ -181,58 +166,55 @@ public class AppointmentController implements Initializable {
 
     @FXML
     public void saveButton(ActionEvent event) throws IOException, ValidationException {
-        DecimalFormat df = new DecimalFormat("00");
-//        System.out.println(String.format("%02d", start_hour.getValue()));
-
-        LocalDate dateValue = date_picker.getValue();
-        String myFormatedDate = dateValue.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate date = date_picker.getValue();
+        validateDate(date);
+        validateUserId(user_id_box.getValue());
+        validateCustomerId(customer_id_box.getValue());
+        validateTime(start_hour.getValue());
+        validateTime(end_hour.getValue());
+        validateTime(start_min.getValue());
+        validateTime(end_min.getValue());
 
         int userId = Integer.parseInt(String.valueOf(user_id_box.getValue()));
-        int customerId = Integer.parseInt(customer_id_box.getValue().getCustomerId());
+        int customerId = Integer.parseInt(String.valueOf(customer_id_box.getValue()));
         String titleField = title.getText();
         String descriptionField = description.getText();
         String locationField = location.getText();
         String contactField = contact.getText();
         String typeField = type.getText();
         String urlField = url.getText();
-
-        String startHour = df.format(start_hour.getValue());
-        String startMin = df.format(start_min.getValue());
-        String startPeriod = start_period.getValue();
-        String dateStartTime = myFormatedDate.concat(" ").concat(startHour).concat(":").concat(startMin).concat(":")
-                .concat("00").concat(" ").concat(startPeriod).concat(" ").concat("UTC");
-
-        String endHour = df.format(end_hour.getValue());
-        String endMin = df.format(end_min.getValue());
-        String endPeriod = end_period.getValue();
-        String dateEndTime = myFormatedDate.concat(" ").concat(endHour).concat(":").concat(endMin).concat(":").concat("00")
-                .concat(" ").concat(endPeriod).concat(" ").concat("UTC");
-
-        DateFormat dateTimeFormating = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss aa");
-        DateFormat outputformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date dateStart = null;
-        Date dateEnd = null;
-        String outputStart = null;
-        String outputEnd = null;
-
-
-        try{
-            dateStart = dateTimeFormating.parse(dateStartTime);
-            dateEnd = dateTimeFormating.parse(dateEndTime);
-
-            outputStart = outputformat.format(dateStart);
-            outputEnd = outputformat.format(dateEnd);
-        } catch (ParseException pe) {
-            pe.printStackTrace();
-        }
         String user = activeUser.getUserName();
+        String startHour = start_hour.getValue();
+        String startMin = start_min.getValue();
+//        String startPeriod = start_period.getValue();
+        String endHour = end_hour.getValue();
+        String endMin = end_min.getValue();
+//        String endPeriod = end_period.getValue();
+
+        StringBuilder startString = new StringBuilder(startHour + ":" + startMin + ":" + "00");
+
+        DateTimeFormatter storedAppointment = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        LocalDateTime startDate = LocalDateTime.of(date, LocalTime.parse(startString));
+
+        String formattedStartDate = storedAppointment.format(startDate);
+        System.out.println(formattedStartDate);
+
+        StringBuilder endString = new StringBuilder(endHour + ":" + endMin + ":" + "00");
+
+        LocalDateTime endDate = LocalDateTime.of(date, LocalTime.parse(endString));
+
+        String formattedEndDate = storedAppointment.format(endDate);
+        System.out.println(formattedStartDate);
+        System.out.println(formattedEndDate);
+
 
         Appointment newAppointment = new Appointment(customerId, userId, titleField, descriptionField, locationField, contactField,
-                typeField, urlField, outputStart, outputEnd, user);
+                typeField, urlField, formattedStartDate, formattedEndDate, user);
+
         try{
             newAppointment.validate();
             new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
-                    typeField, urlField, outputStart, outputEnd, user);
+                    typeField, urlField, formattedStartDate, formattedEndDate, user);
 
             Stage stage;
             stage = (Stage)save_button.getScene().getWindow();
@@ -242,7 +224,7 @@ public class AppointmentController implements Initializable {
             stage.setScene(new Scene(root));
             stage.show();
 
-        } catch (ValidationException e) {
+        } catch(ValidationException e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Validation Error");
             alert.setHeaderText("Validation Error");
@@ -298,10 +280,9 @@ public class AppointmentController implements Initializable {
 
         Customer singCustomer = Customers.getSingleCustomer(Integer.parseInt(appointment.getCustomerId()));
         customer_id_box.getItems().forEach(e -> {
-            if(e.getCustomerId().equals(singCustomer)){
-//                customer_id_box.setCellFactory();
-                System.out.println(e);
+            if(e == Integer.parseInt(singCustomer.getCustomerId())){
 
+                customer_id_box.setValue(e);
             }
         });
 //        System.out.println(customer_id_box.getItems());
@@ -316,12 +297,12 @@ public class AppointmentController implements Initializable {
         type.setText(appointment.getType());
         url.setText(appointment.getUrl());
         date_picker.setValue(LocalDate.parse(stringForDatePicker));
-        start_hour.setValue(Integer.valueOf(stringStartHour));
-        start_min.setValue(Integer.valueOf(stringStartMin));
-        start_period.setValue(stringStartPeriod);
-        end_hour.setValue(Integer.valueOf(stringEndHour));
-        end_min.setValue(Integer.valueOf(stringEndMin));
-        end_period.setValue(stringEndPeriod);
+//        start_hour.setValue(Integer.valueOf(stringStartHour));
+//        start_min.setValue(Integer.valueOf(stringStartMin));
+//        start_period.setValue(stringStartPeriod);
+//        end_hour.setValue(Integer.valueOf(stringEndHour));
+//        end_min.setValue(Integer.valueOf(stringEndMin));
+//        end_period.setValue(stringEndPeriod);
     }
 
     @FXML

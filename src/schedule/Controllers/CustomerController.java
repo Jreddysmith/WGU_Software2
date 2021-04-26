@@ -130,6 +130,7 @@ public class CustomerController implements Initializable {
         customer_country.setText(customer.getCountry());
         customer_zipcode.setText(customer.getPostalCode());
         customer_number.setText(customer.getPhone());
+        //Made lambda so for simplicity to update customer.
         update_button.setOnAction((e) -> {
         int customerId = Integer.parseInt(customer.getCustomerId());
         String customerName = customer_name.getText();

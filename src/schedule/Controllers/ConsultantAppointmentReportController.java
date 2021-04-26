@@ -51,12 +51,12 @@ public class ConsultantAppointmentReportController implements Initializable {
     private Button cancel;
 
     @FXML
-    private ComboBox<User> consultant;
+    private ComboBox<Integer> consultant;
 
     @FXML
     public void getAllAppointments(){consultant_table.setItems(Appointments.getAppointments());}
 
-    @FXML void getAllUsers(){consultant.setItems(Users.getAllUsers());}
+//    @FXML void getAllUsers(){consultant.setItems(Users.getAllUsers());}
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,29 +71,33 @@ public class ConsultantAppointmentReportController implements Initializable {
         end.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedEndTime"));
         System.out.println("In the initialize for all Appointments table");
         getAllAppointments();
-        getAllUsers();
+//        getAllUsers();
+
+        Users.getAllUsers().forEach(user -> {
+            consultant.getItems().add(Integer.valueOf(user.getUserId()));
+        });
 
         consultant.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
-                    System.out.println(consultant.getValue().getUserId());
-                    int userId = Integer.parseInt(consultant.getValue().getUserId());
+                    System.out.println(consultant.getValue());
+                    int userId = Integer.parseInt(String.valueOf(consultant.getValue()));
                     consultant_table.setItems(Appointments.getConsultantAppointments(userId));
                 }
         );
-
-        consultant.setCellFactory(customerListView -> {
-            return new ListCell<User>(){
-                @Override
-                protected void updateItem(User user, boolean empty) {
-                    super.updateItem(user, empty);
-                    if(user == null || empty) {
-                        setText(null);
-                    } else {
-                        setText(user.getUserName());
-                    }
-
-                }
-            };
-        });
+//
+//        consultant.setCellFactory(customerListView -> {
+//            return new ListCell<User>(){
+//                @Override
+//                protected void updateItem(User user, boolean empty) {
+//                    super.updateItem(user, empty);
+//                    if(user == null || empty) {
+//                        setText(null);
+//                    } else {
+//                        setText(user.getUserName());
+//                    }
+//
+//                }
+//            };
+//        });
 
     }
 
