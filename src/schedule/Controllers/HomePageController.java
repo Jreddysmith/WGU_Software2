@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import schedule.Models.*;
+import schedule.exceptions.ValidationException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -183,7 +184,7 @@ public class HomePageController implements Initializable {
     }
 
     @FXML
-    public void appointmentModify() throws IOException {
+    public void appointmentModify() throws IOException, ValidationException {
         Appointment appointment = appointment_table.getSelectionModel().getSelectedItem();
         if(appointment == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class Appointments {
@@ -250,4 +251,42 @@ public class Appointments {
             e.printStackTrace();
         }
     }
+    public void updateAppointment(int appointmentId, int customerId, int userId, String title, String description, String location, String contact,
+                                         String type, String url, String start, String end, String activeUser) {
+
+        System.out.println("lets see if the appointment Id goes here" + appointmentId);
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+        String formatDateTime = now.format(format);
+
+
+        String updateCustomerTable = "update U05wjs.appointment set customerId=?, userId=?, title=?, description=?, location=?, contact=?," +
+                "type=?, url=?, start=?, end=?, lastUpdate=?, lastUpdateBy=? where appointmentId=?";
+
+
+        try {
+            PreparedStatement customerTableStmt = connectDB.prepareStatement(updateCustomerTable);
+            customerTableStmt.setInt(1, customerId);
+            customerTableStmt.setInt(2, userId);
+            customerTableStmt.setString(3, title);
+            customerTableStmt.setString(4, description);
+            customerTableStmt.setString(5, location);
+            customerTableStmt.setString(6, contact);
+            customerTableStmt.setString(7, type);
+            customerTableStmt.setString(8, url);
+            customerTableStmt.setString(9, start);
+            customerTableStmt.setString(10, end);
+            customerTableStmt.setTimestamp(11, Timestamp.valueOf(formatDateTime));
+            customerTableStmt.setString(12, activeUser);
+            customerTableStmt.setInt(13, appointmentId);
+            customerTableStmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

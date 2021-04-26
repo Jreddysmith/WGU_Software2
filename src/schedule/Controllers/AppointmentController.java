@@ -17,6 +17,7 @@ import schedule.exceptions.ValidationException;
 import java.io.IOException;
 import java.net.URL;
 import java.text.*;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -245,51 +246,38 @@ public class AppointmentController implements Initializable {
 
     }
 
-    public void getAppointment(Appointment appointment) {
+    public void getAppointment(Appointment appointment) throws IOException, ValidationException {
         main_label.setText("Modify Appointment");
         save_button.setVisible(false);
         update_button.setVisible(true);
-
         SimpleDateFormat dateForPicker = new SimpleDateFormat("yyyy-MM-dd");
         String stringForDatePicker = dateForPicker.format(appointment.getStart());
-//        System.out.println(stringForDatePicker);
 
-        SimpleDateFormat startHour = new SimpleDateFormat("hh");
-        String stringStartHour = startHour.format(appointment.getStart());
-//        System.out.println(stringStartHour);
+        SimpleDateFormat hour = new SimpleDateFormat("HH");
+        String stringStartHour = hour.format(appointment.getStart());
+        String stringEndHour = hour.format(appointment.getEnd());
 
-        SimpleDateFormat startMin = new SimpleDateFormat("mm");
-        String stringStartMin = startMin.format(appointment.getStart());
-//        System.out.println(stringStartMin);
+        SimpleDateFormat min = new SimpleDateFormat("mm");
+        String stringStartMin = min.format(appointment.getStart());
+        String stringEndMin = min.format(appointment.getEnd());
 
-        SimpleDateFormat startPeriod = new SimpleDateFormat("aa");
-        String stringStartPeriod = startPeriod.format(appointment.getStart());
-//        System.out.println(stringStartPeriod);
-
-        SimpleDateFormat endHour = new SimpleDateFormat("hh");
-        String stringEndHour = endHour.format(appointment.getEnd());
-//        System.out.println(stringEndHour);
-
-        SimpleDateFormat endMin = new SimpleDateFormat("mm");
-        String stringEndMin = endMin.format(appointment.getEnd());
-//        System.out.println(stringEndMin);
-
-        SimpleDateFormat endPeriod = new SimpleDateFormat("aa");
-        String stringEndPeriod = endPeriod.format(appointment.getEnd());
-//        System.out.println(stringEndPeriod);
-
-        Customer singCustomer = Customers.getSingleCustomer(Integer.parseInt(appointment.getCustomerId()));
-        customer_id_box.getItems().forEach(e -> {
-            if(e == Integer.parseInt(singCustomer.getCustomerId())){
-
-                customer_id_box.setValue(e);
+        User singUser = Users.getSingleUser(Integer.parseInt(appointment.getUserId()));
+        user_id_box.getItems().forEach(u -> {
+            if(u == Integer.parseInt(singUser.getUserId())){
+                user_id_box.setValue(u);
             }
         });
-//        System.out.println(customer_id_box.getItems());
 
+        Customer singCustomer = Customers.getSingleCustomer(Integer.parseInt(appointment.getCustomerId()));
+        customer_id_box.getItems().forEach(c -> {
+            if(c == Integer.parseInt(singCustomer.getCustomerId())){
 
-//        customer_id_box.setValue(appointment.getCustomerId());
-//        user_id.setText(appointment.getUserId());
+                customer_id_box.setValue(c);
+            }
+        });
+
+        user_id_box.setValue(Integer.valueOf(appointment.getUserId()));
+        customer_id_box.setValue(Integer.valueOf(appointment.getCustomerId()));
         title.setText(appointment.getTitle());
         description.setText(appointment.getDescription());
         location.setText(appointment.getLocation());
@@ -297,16 +285,77 @@ public class AppointmentController implements Initializable {
         type.setText(appointment.getType());
         url.setText(appointment.getUrl());
         date_picker.setValue(LocalDate.parse(stringForDatePicker));
-//        start_hour.setValue(Integer.valueOf(stringStartHour));
-//        start_min.setValue(Integer.valueOf(stringStartMin));
-//        start_period.setValue(stringStartPeriod);
-//        end_hour.setValue(Integer.valueOf(stringEndHour));
-//        end_min.setValue(Integer.valueOf(stringEndMin));
-//        end_period.setValue(stringEndPeriod);
-    }
+        start_hour.setValue(stringStartHour);
+        start_min.setValue(stringStartMin);
+        end_hour.setValue(stringEndHour);
+        end_min.setValue(stringEndMin);
+        //update button and lambda to make it easier in one method.
+        update_button.setOnAction(updateEvent -> {
+            int userId = Integer.parseInt(String.valueOf(user_id_box.getValue()));
+            int customerId = Integer.parseInt(String.valueOf(customer_id_box.getValue()));
+            String titleField = title.getText();
+            String descriptionField = description.getText();
+            String locationField = location.getText();
+            String contactField = contact.getText();
+            String typeField = type.getText();
+            String urlField = url.getText();
+            String user = activeUser.getUserName();
+            String startHour = start_hour.getValue();
+            String startMin = start_min.getValue();
+            String endHour = end_hour.getValue();
+            String endMin = end_min.getValue();
 
-    @FXML
-    public void updateButton(ActionEvent event){
+            try{
+                LocalDate date = date_picker.getValue();
+                validateDate(date);
+                validateUserId(user_id_box.getValue());
+                validateCustomerId(customer_id_box.getValue());
+                validateTime(start_hour.getValue());
+                validateTime(end_hour.getValue());
+                validateTime(start_min.getValue());
+                validateTime(end_min.getValue());
+                StringBuilder startString = new StringBuilder(startHour + ":" + startMin + ":" + "00");
+
+                DateTimeFormatter storedAppointment = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                LocalDateTime startDate = LocalDateTime.of(date, LocalTime.parse(startString));
+
+                String formattedStartDate = storedAppointment.format(startDate);
+                System.out.println(formattedStartDate);
+
+                StringBuilder endString = new StringBuilder(endHour + ":" + endMin + ":" + "00");
+
+                LocalDateTime endDate = LocalDateTime.of(date, LocalTime.parse(endString));
+
+                String formattedEndDate = storedAppointment.format(endDate);
+                System.out.println(formattedStartDate);
+                System.out.println(formattedEndDate);
+
+
+                Appointment updateAppointment = new Appointment(customerId, userId, titleField, descriptionField, locationField, contactField,
+                        typeField, urlField, formattedStartDate, formattedEndDate, user);
+                int appointmentId = Integer.parseInt(appointment.getAppointmentId());
+
+                updateAppointment.validate();
+                new Appointments().updateAppointment(appointmentId, customerId, userId, titleField, descriptionField, locationField, contactField,
+                        typeField, urlField, formattedStartDate, formattedEndDate, user);
+
+                Stage stage;
+                stage = (Stage)save_button.getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
+                Parent root = loader.load();
+                stage.setScene(new Scene(root));
+                stage.show();
+
+            } catch(ValidationException | IOException e) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Validation Error");
+                alert.setHeaderText("Validation Error");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
+
+        });
 
     }
 
