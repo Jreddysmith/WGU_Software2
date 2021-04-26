@@ -56,6 +56,22 @@ public class Appointment {
         this.end = end;
     }
 
+    public Appointment(int customerId, int userId, String titleField, String descriptionField, String locationField, String contactField,
+                       String typeField, String urlField, String outputStart, String outputEnd, String user) {
+        this.customerId = String.valueOf(customerId);
+        this.userId = String.valueOf(userId);
+        this.title = titleField;
+        this.description = descriptionField;
+        this.location = locationField;
+        this.contact = contactField;
+        this.type = typeField;
+        this.url = urlField;
+        this.start = Timestamp.valueOf(outputStart);
+        this.end = Timestamp.valueOf(outputEnd);
+        this.activeUser = user;
+
+    }
+
     public Appointment(String appointmentId, String customerId, String userId, String title, String description,
                        String location, String contact, String type, String url, Timestamp start, Timestamp end, String activeUser) {
         this.appointmentId = appointmentId;
@@ -194,14 +210,35 @@ public class Appointment {
 
 
     public void validate() throws ValidationException {
-        if (getTitle().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Save Error");
-            alert.setContentText("Title field can not be empty");
-            alert.showAndWait();
-            throw new ValidationException("Title field can not be empty");
-
+        if(getUserId().isEmpty()){
+            throw new ValidationException("User ID can not be empty");
+        }
+        if(getCustomerId().isEmpty()) {
+            throw new ValidationException("Customer ID can not be empty");
+        }
+        if (getTitle().isEmpty() || getTitle().length() < 4) {
+            throw new ValidationException("Title field can not be empty or less then 4 Characters");
+        }
+        if(getDescription().isEmpty() || getDescription().length() < 4) {
+            throw new ValidationException("Description field can not be empty or less then 4 Characters");
+        }
+        if(getLocation().isEmpty() || getLocation().length() < 5) {
+            throw new ValidationException("Location field can not be empty or less then 5 Characters");
+        }
+        if(getContact().isEmpty() || getContact().length() < 5) {
+            throw new ValidationException("Contact field can not be empty or less then 5 Characters");
+        }
+        if(getType().isEmpty() || getType().length() < 4) {
+            throw new ValidationException("Type field can not be empty or less then 4 Characters");
+        }
+        if(getUrl().isEmpty() || getUrl().length() < 5) {
+            throw new ValidationException("Url field can not be empty or less then 5 Characters");
+        }
+        if(getStart() == null) {
+            throw new ValidationException("Start date and time can not be empty");
+        }
+        if(getEnd() == null) {
+            throw new ValidationException("End date and time can not be empty");
         }
     }
 }

@@ -120,7 +120,7 @@ public class Appointments {
 
             appointmentOutput.next();
             int appointmentId = appointmentOutput.getInt(1);
-            System.out.println("this is the appointment ID: " + appointmentId);
+//            System.out.println("this is the appointment ID: " + appointmentId);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -156,7 +156,7 @@ public class Appointments {
                 appointmentsList.add(new Appointment(appointmentId, customerId, userId, title, description, location, contact,
                         type, url, start, end));
 
-                System.out.println("Just got all the appointments!!!!");
+//                System.out.println("Just got all the appointments!!!!");
 
             }
         } catch (SQLException e) {
@@ -166,7 +166,7 @@ public class Appointments {
     }
 
     public static ObservableList<Appointment> getAppointmentsMonthly(String month) {
-        System.out.println("lets see if we can get the months" + month);
+//        System.out.println("lets see if we can get the months" + month);
 
         ObservableList<Appointment> appointmentsListByMonth = FXCollections.observableArrayList();
 
@@ -185,7 +185,7 @@ public class Appointments {
 //                String appointmentId = Integer.toString(appointmentListQuery.getInt("appointmentId"));
                 String type = appointmentListQuery.getString(1);
                 String count = Integer.toString(appointmentListQuery.getInt(2));
-                System.out.println("seee values" + type + count);
+//                System.out.println("seee values" + type + count);
 
                 appointmentsListByMonth.add(new Appointment(type, count));
 
@@ -193,7 +193,7 @@ public class Appointments {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("this is the results back from the model" + appointmentsListByMonth);
+//        System.out.println("this is the results back from the model" + appointmentsListByMonth);
         return appointmentsListByMonth;
     }
 

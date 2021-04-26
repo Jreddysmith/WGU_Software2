@@ -96,7 +96,7 @@ public class AppointmentCustomerReportController implements Initializable {
 
         monthGroup.selectedToggleProperty().addListener(((observableValue, oldToggle, newToggle) -> {
             if(monthGroup.getSelectedToggle() != null) {
-                System.out.println("lets see if this works " + monthGroup.getSelectedToggle().getUserData().toString());
+//                System.out.println("lets see if this works " + monthGroup.getSelectedToggle().getUserData().toString());
                 String month = monthGroup.getSelectedToggle().getUserData().toString();
                 app_cus_rep_table.setItems(Customers.getCustomerCountInMonth(month));
             }

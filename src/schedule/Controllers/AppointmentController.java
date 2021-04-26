@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.w3c.dom.Text;
 import schedule.Models.*;
+import schedule.exceptions.ValidationException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -179,7 +180,7 @@ public class AppointmentController implements Initializable {
 
 
     @FXML
-    public void saveButton(ActionEvent event) throws IOException {
+    public void saveButton(ActionEvent event) throws IOException, ValidationException {
         DecimalFormat df = new DecimalFormat("00");
 //        System.out.println(String.format("%02d", start_hour.getValue()));
 
@@ -226,16 +227,28 @@ public class AppointmentController implements Initializable {
         }
         String user = activeUser.getUserName();
 
-        new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
+        Appointment newAppointment = new Appointment(customerId, userId, titleField, descriptionField, locationField, contactField,
                 typeField, urlField, outputStart, outputEnd, user);
+        try{
+            newAppointment.validate();
+            new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
+                    typeField, urlField, outputStart, outputEnd, user);
 
-        Stage stage;
-        stage = (Stage)save_button.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
-        Parent root = loader.load();
-        stage.setScene(new Scene(root));
-        stage.show();
+            Stage stage;
+            stage = (Stage)save_button.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
+            Parent root = loader.load();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (ValidationException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Validation Error");
+            alert.setHeaderText("Validation Error");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -257,31 +270,31 @@ public class AppointmentController implements Initializable {
 
         SimpleDateFormat dateForPicker = new SimpleDateFormat("yyyy-MM-dd");
         String stringForDatePicker = dateForPicker.format(appointment.getStart());
-        System.out.println(stringForDatePicker);
+//        System.out.println(stringForDatePicker);
 
         SimpleDateFormat startHour = new SimpleDateFormat("hh");
         String stringStartHour = startHour.format(appointment.getStart());
-        System.out.println(stringStartHour);
+//        System.out.println(stringStartHour);
 
         SimpleDateFormat startMin = new SimpleDateFormat("mm");
         String stringStartMin = startMin.format(appointment.getStart());
-        System.out.println(stringStartMin);
+//        System.out.println(stringStartMin);
 
         SimpleDateFormat startPeriod = new SimpleDateFormat("aa");
         String stringStartPeriod = startPeriod.format(appointment.getStart());
-        System.out.println(stringStartPeriod);
+//        System.out.println(stringStartPeriod);
 
         SimpleDateFormat endHour = new SimpleDateFormat("hh");
         String stringEndHour = endHour.format(appointment.getEnd());
-        System.out.println(stringEndHour);
+//        System.out.println(stringEndHour);
 
         SimpleDateFormat endMin = new SimpleDateFormat("mm");
         String stringEndMin = endMin.format(appointment.getEnd());
-        System.out.println(stringEndMin);
+//        System.out.println(stringEndMin);
 
         SimpleDateFormat endPeriod = new SimpleDateFormat("aa");
         String stringEndPeriod = endPeriod.format(appointment.getEnd());
-        System.out.println(stringEndPeriod);
+//        System.out.println(stringEndPeriod);
 
         Customer singCustomer = Customers.getSingleCustomer(Integer.parseInt(appointment.getCustomerId()));
         customer_id_box.getItems().forEach(e -> {
@@ -291,7 +304,7 @@ public class AppointmentController implements Initializable {
 
             }
         });
-        System.out.println(customer_id_box.getItems());
+//        System.out.println(customer_id_box.getItems());
 
 
 //        customer_id_box.setValue(appointment.getCustomerId());

@@ -96,7 +96,7 @@ public class AppointmentTypeReportController implements Initializable {
         //I built Month type lambda so I wouldn't have to build a method for every month to switch events.
         monthGroup.selectedToggleProperty().addListener(((observableValue, oldToggle, newToggle) -> {
             if(monthGroup.getSelectedToggle() != null) {
-                System.out.println("lets see if this works " + monthGroup.getSelectedToggle().getUserData().toString());
+//                System.out.println("lets see if this works " + monthGroup.getSelectedToggle().getUserData().toString());
                 String month = monthGroup.getSelectedToggle().getUserData().toString();
                 table_appointment_type.setItems(Appointments.getAppointmentsMonthly(month));
             }

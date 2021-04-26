@@ -171,9 +171,9 @@ public class Customers {
 
         String deleteAddressTable = "delete from U05wjs.address where addressId = ?";
 
-        String deleteCityTable = "delete from U0wjs.city where cityId = ?";
-
-        String deleteCountryTable = "delete from U0wjs.country where country = ?";
+//        String deleteCityTable = "delete from U0wjs.city where cityId = ?";
+//
+//        String deleteCountryTable = "delete from U0wjs.country where country = ?";
 
         try {
             PreparedStatement customerStatement = connectDB.prepareStatement(deleteCustomerTable);
@@ -186,15 +186,15 @@ public class Customers {
             System.out.println(customer.getAddressId());
             addressTable.executeUpdate();
 
-            PreparedStatement cityTable = connectDB.prepareStatement(deleteCityTable);
-            cityTable.setInt(1, Integer.parseInt(customer.getCityId()));
-            System.out.println(customer.getCityId());
-            cityTable.executeUpdate();
-
-            PreparedStatement countryTable = connectDB.prepareStatement(deleteCountryTable);
-            countryTable.setInt(1, Integer.parseInt(customer.getCountryId()));
-            System.out.println(customer.getCountryId());
-            countryTable.executeUpdate();
+//            PreparedStatement cityTable = connectDB.prepareStatement(deleteCityTable);
+//            cityTable.setInt(1, Integer.parseInt(customer.getCityId()));
+//            System.out.println(customer.getCityId());
+//            cityTable.executeUpdate();
+//
+//            PreparedStatement countryTable = connectDB.prepareStatement(deleteCountryTable);
+//            countryTable.setInt(1, Integer.parseInt(customer.getCountryId()));
+//            System.out.println(customer.getCountryId());
+//            countryTable.executeUpdate();
 
 
         } catch (SQLException e) {
