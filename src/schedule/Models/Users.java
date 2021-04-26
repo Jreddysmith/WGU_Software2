@@ -41,4 +41,34 @@ public class Users {
         }
         return userList;
     }
+
+    public static User getSingleUser(int userId) {
+
+        DatabaseConnection connNow = new DatabaseConnection();
+        Connection connDB = connNow.getConnection();
+
+        String userIdQuery = "select * from U05wjs.user where userId = ?";
+
+        try{
+            PreparedStatement singUser = connDB.prepareStatement(userIdQuery);
+            singUser.setInt(1, userId);
+            ResultSet rs = singUser.executeQuery();
+
+            if(rs.next()) {
+                String customerId = Integer.toString(rs.getInt("userId"));
+                String customerName = rs.getString("userName");
+
+                User singleUser = new User(customerId, customerName);
+                return singleUser;
+            }
+            throw new RuntimeException("Customer not found: " + singUser);
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
 }

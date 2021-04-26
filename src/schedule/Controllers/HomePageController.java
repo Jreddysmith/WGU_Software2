@@ -89,6 +89,8 @@ public class HomePageController implements Initializable {
     @FXML
     public void updateAppointmentList() {appointment_table.setItems(Appointments.getAppointments());}
 
+    private User activeUser = User.currentUser;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -96,7 +98,6 @@ public class HomePageController implements Initializable {
         customer_name.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
         customer_address_id.setCellValueFactory(new PropertyValueFactory<Customer, String>("addressId"));
         customer_active.setCellValueFactory(new PropertyValueFactory<Customer, String>("active"));
-        System.out.println("In the initialize for customer Table");
         updateCustomerList();
 
         appointment_id.setCellValueFactory(new PropertyValueFactory<Appointment, String>("appointmentId"));
@@ -105,32 +106,31 @@ public class HomePageController implements Initializable {
         appointment_title.setCellValueFactory(new PropertyValueFactory<Appointment, String>("title"));
         appointment_start.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedStartTime"));
         appointment_end.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedEndTime"));
-        System.out.println("In the initialize for appointment Table");
         updateAppointmentList();
-
-
     }
 
 
 
     @FXML
     public void customerAdd() throws IOException {
-        Stage stage = new Stage();
-        stage = (Stage)customer_add.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/schedule/Views/addCustomer.fxml"));
         Parent root = loader.load();
+
+        CustomerController mpc = loader.getController();
+        mpc.setButtonType(0);
+
+        Stage stage;
+        stage = (Stage)customer_add.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
 
         updateCustomerList();
-
     }
 
     @FXML
     public void  customerModify() throws IOException {
         Customer customer = customer_table.getSelectionModel().getSelectedItem();
-
         if(customer == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
@@ -155,11 +155,9 @@ public class HomePageController implements Initializable {
     @FXML
     public void customerDelete() {
         Customer customer = customer_table.getSelectionModel().getSelectedItem();
-
         if(customer != null) {
             Customers.deleteCustomer(customer);
             updateCustomerList();
-            System.out.println("Customer Deleted successfully");
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
@@ -167,16 +165,19 @@ public class HomePageController implements Initializable {
             alert.setContentText("You have to have a customer to be able to delete it");
             alert.showAndWait();
         }
-
     }
 
     @FXML
     public void appointmentAdd() throws IOException {
-        Stage stage = new Stage();
-        stage = (Stage)appointment_add.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/schedule/Views/addAppointment.fxml"));
         Parent root = loader.load();
+
+        AppointmentController mpc = loader.getController();
+        mpc.setButtonType(0);
+
+        Stage stage;
+        stage = (Stage)appointment_add.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
@@ -184,7 +185,6 @@ public class HomePageController implements Initializable {
     @FXML
     public void appointmentModify() throws IOException {
         Appointment appointment = appointment_table.getSelectionModel().getSelectedItem();
-
         if(appointment == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
@@ -208,13 +208,10 @@ public class HomePageController implements Initializable {
 
     @FXML
     public void appointmentDelete(){
-
         Appointment appointment = appointment_table.getSelectionModel().getSelectedItem();
-
         if(appointment != null) {
             Appointments.deleteAppointment(appointment);
             updateAppointmentList();
-            System.out.println("Appointment Deleted successfully");
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
@@ -222,7 +219,6 @@ public class HomePageController implements Initializable {
             alert.setContentText("You have to have a appointment to be able to delete it");
             alert.showAndWait();
         }
-
     }
 
     @FXML
@@ -234,7 +230,6 @@ public class HomePageController implements Initializable {
         Parent root = loader.load();
         stage.setScene(new Scene(root));
         stage.show();
-
     }
 
     @FXML
@@ -250,7 +245,6 @@ public class HomePageController implements Initializable {
 
     @FXML
     public void consultantScheduleReport() throws IOException {
-
         Stage stage = new Stage();
         stage = (Stage)consultant_schedule_report.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
@@ -262,7 +256,6 @@ public class HomePageController implements Initializable {
 
     @FXML
     public void appointmentCostumersReport() throws IOException {
-
         Stage stage = new Stage();
         stage = (Stage)appointment_costumers_report.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
@@ -270,12 +263,5 @@ public class HomePageController implements Initializable {
         Parent root = loader.load();
         stage.setScene(new Scene(root));
         stage.show();
-    }
-
-
-    public void getActiveUser(User activeUser) {
-
-        System.out.println(activeUser.getUserName());
-
     }
 }

@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import schedule.DatabaseConnection;
 import schedule.Models.User;
+import schedule.Models.Users;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -78,13 +79,13 @@ public class LoginController {
 
                         String userId = userResult.getString(1);
                         String userNameResponse = userResult.getString(2);
-                        User activeUser = new User(userId, userNameResponse);
+
+                        User activeUser = Users.getSingleUser(Integer.parseInt(userId));
 
                         FXMLLoader loader = new FXMLLoader();
                         loader.setLocation(getClass().getResource("/schedule/Views/homepage.fxml"));
                         Parent root = loader.load();
-                        HomePageController mpc = loader.getController();
-                        mpc.getActiveUser(activeUser);
+                        User.currentUser = activeUser;
 
                         Stage stage;
                         stage = (Stage) login_button.getScene().getWindow();

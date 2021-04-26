@@ -16,7 +16,7 @@
 <!--         <font>-->
 <!--            <Font size="18.0" />-->
 <!--         </font></Text>-->
-      <Button fx:id="save_button" layoutX="181.0" layoutY="552.0" mnemonicParsing="false" onAction="#saveButton" text="Save">
+      <Button fx:id="save_button" layoutX="127.0" layoutY="552.0" mnemonicParsing="false" onAction="#saveButton" text="Save">
          <font>
             <Font size="18.0" />
          </font></Button>
@@ -82,9 +82,9 @@
          </toggleGroup>
       </RadioButton>
       <RadioButton fx:id="active_no" layoutX="427.0" layoutY="480.0" mnemonicParsing="false" text="No" toggleGroup="$activeGroup" />
-      <Button fx:id="update_button" layoutX="253.0" layoutY="552.0" mnemonicParsing="false" onAction="#updateButton" prefHeight="33.0" prefWidth="69.0" text="Update">
+      <Button fx:id="update_button" layoutX="196.0" layoutY="552.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="85.0" text="Update">
          <font>
-            <Font size="14.0" />
+            <Font size="15.0" />
          </font>
       </Button>
    </children>

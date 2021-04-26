@@ -13,13 +13,13 @@ import java.sql.Timestamp;
 
 public class Customers {
 
-    public void addCustomer(String name, String address1, String address2, String city, String country, String zipcode, String number, int active) {
+    public void addCustomer(String name, String address1, String address2, String city, String country, String zipcode, String number, int active, String activeUser) {
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
         String insertCountry = "insert into U05wjs.country (country, createDate, createdBy, lastUpdate, lastUpdateBy) " +
-                            "values (?, sysdate(), 'nobody', current_timestamp() , 'nobody')";
+                            "values (?, sysdate(), ?, current_timestamp() , ?)";
 
         String insertAddress = "insert into U05wjs.address (address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdate, LastUpdateBy)" +
                 "values (?, ?, ?, ?, ?, sysdate() , ?, current_timestamp(), ?)";
@@ -35,6 +35,8 @@ public class Customers {
             // For Country query.
             PreparedStatement countryStatement = connectDB.prepareStatement(insertCountry, Statement.RETURN_GENERATED_KEYS);
             countryStatement.setString(1, country);
+            countryStatement.setString(2, activeUser);
+            countryStatement.setString(3, activeUser);
             countryStatement.executeUpdate();
             ResultSet queryOutput = countryStatement.getGeneratedKeys();
             queryOutput.next();
@@ -46,8 +48,8 @@ public class Customers {
             PreparedStatement cityStatement = connectDB.prepareStatement(insertCity, Statement.RETURN_GENERATED_KEYS);
             cityStatement.setString(1, city);
             cityStatement.setInt(2, countryId);
-            cityStatement.setString(3, "me");
-            cityStatement.setString(4, "me");
+            cityStatement.setString(3, activeUser);
+            cityStatement.setString(4, activeUser);
             cityStatement.executeUpdate();
             ResultSet cityQueryOutput = cityStatement.getGeneratedKeys();
 
@@ -63,8 +65,8 @@ public class Customers {
             addressStatement.setInt(3, cityId);
             addressStatement.setString(4, zipcode);
             addressStatement.setString(5, number);
-            addressStatement.setString(6, "Me");
-            addressStatement.setString(7, "ME");
+            addressStatement.setString(6, activeUser);
+            addressStatement.setString(7, activeUser);
             addressStatement.executeUpdate();
             ResultSet addressQueryOutput = addressStatement.getGeneratedKeys();
             addressQueryOutput.next();
@@ -76,8 +78,8 @@ public class Customers {
             customerStatement.setString(1, name);
             customerStatement.setInt(2, addressId);
             customerStatement.setInt(3, active);
-            customerStatement.setString(4, "me");
-            customerStatement.setString(5, "me");
+            customerStatement.setString(4, activeUser);
+            customerStatement.setString(5, activeUser);
             customerStatement.executeUpdate();
             ResultSet customerQueryOutput = customerStatement.getGeneratedKeys();
             customerQueryOutput.next();
@@ -92,7 +94,7 @@ public class Customers {
         }
     }
 
-    public Customer getSingleCustomer(int custId) {
+    public static Customer getSingleCustomer(int custId) {
 
         DatabaseConnection connNow = new DatabaseConnection();
         Connection connDB = connNow.getConnection();
@@ -169,9 +171,9 @@ public class Customers {
 
         String deleteAddressTable = "delete from U05wjs.address where addressId = ?";
 
-//        String deleteCityTable = "delete from U0wjs.city where cityId = ?";
+        String deleteCityTable = "delete from U0wjs.city where cityId = ?";
 
-//        String deleteCountryTable = "delete from U0wjs.country where country = ?";
+        String deleteCountryTable = "delete from U0wjs.country where country = ?";
 
         try {
             PreparedStatement customerStatement = connectDB.prepareStatement(deleteCustomerTable);
@@ -184,15 +186,15 @@ public class Customers {
             System.out.println(customer.getAddressId());
             addressTable.executeUpdate();
 
-//            PreparedStatement cityTable = connectDB.prepareStatement(deleteCityTable);
-//            cityTable.setInt(1, Integer.parseInt(customer.getCityId()));
-//            System.out.println(customer.getCityId());
-//            cityTable.executeUpdate();
+            PreparedStatement cityTable = connectDB.prepareStatement(deleteCityTable);
+            cityTable.setInt(1, Integer.parseInt(customer.getCityId()));
+            System.out.println(customer.getCityId());
+            cityTable.executeUpdate();
 
-//            PreparedStatement countryTable = connectDB.prepareStatement(deleteCountryTable);
-//            countryTable.setInt(1, Integer.parseInt(customer.getCountryId()));
-//            System.out.println(customer.getCountryId());
-//            countryTable.executeUpdate();
+            PreparedStatement countryTable = connectDB.prepareStatement(deleteCountryTable);
+            countryTable.setInt(1, Integer.parseInt(customer.getCountryId()));
+            System.out.println(customer.getCountryId());
+            countryTable.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -226,7 +228,7 @@ public class Customers {
 
     public static void updateCustomer(int customerId, int addressId, String customerName, String customerAddress1, String customerAddress2,
                                       String customerCity, String customerCountry, String customerZipcode, String customerNumber,
-                                      int customerActive, int cityId, int countryId) {
+                                      int customerActive, int cityId, int countryId, String activeUser) {
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
@@ -250,7 +252,7 @@ public class Customers {
             customerTableStmt.setString(1, customerName);
             customerTableStmt.setInt(2, customerActive);
             customerTableStmt.setTimestamp(3, Timestamp.valueOf(formatDateTime));
-            customerTableStmt.setString(4, "Super Loser");
+            customerTableStmt.setString(4, activeUser);
             customerTableStmt.setInt(5, customerId);
             customerTableStmt.executeUpdate();
 
@@ -260,29 +262,23 @@ public class Customers {
             addressTableStmt.setString(3, customerZipcode);
             addressTableStmt.setString(4, customerNumber);
             addressTableStmt.setTimestamp(5, Timestamp.valueOf(formatDateTime));
-            addressTableStmt.setString(6, "mee");
+            addressTableStmt.setString(6, activeUser);
             addressTableStmt.setInt(7, addressId);
             addressTableStmt.executeUpdate();
 
             PreparedStatement cityTableStmt = connectDB.prepareStatement(updateCityTable);
             cityTableStmt.setString(1, customerCity);
             cityTableStmt.setTimestamp(2, Timestamp.valueOf(formatDateTime));
-            cityTableStmt.setString(3, "meeee");
+            cityTableStmt.setString(3, activeUser);
             cityTableStmt.setInt(4, cityId);
             cityTableStmt.executeUpdate();
 
             PreparedStatement countryTableStmt = connectDB.prepareStatement(updateCountryTable);
             countryTableStmt.setString(1, customerCountry);
             countryTableStmt.setTimestamp(2, Timestamp.valueOf(formatDateTime));
-            countryTableStmt.setString(3, "youngman");
+            countryTableStmt.setString(3, activeUser);
             countryTableStmt.setInt(4, countryId);
             countryTableStmt.executeUpdate();
-
-            System.out.println("lets hope this updates");
-
-
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

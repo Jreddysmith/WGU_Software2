@@ -13,10 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.w3c.dom.Text;
-import schedule.Models.Appointment;
-import schedule.Models.Appointments;
-import schedule.Models.Customer;
-import schedule.Models.Customers;
+import schedule.Models.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,6 +34,8 @@ public class AppointmentController implements Initializable {
     @FXML
     private ComboBox<Customer> customer_id_box;
     @FXML
+    private ComboBox<User> user_id_box;
+    @FXML
     private ComboBox<String> start_period;
     @FXML
     private ComboBox<Integer> start_hour;
@@ -48,9 +47,6 @@ public class AppointmentController implements Initializable {
     private ComboBox<Integer> end_hour;
     @FXML
     private ComboBox<Integer> end_min;
-
-    @FXML
-    private TextField user_id;
 
     @FXML
     private TextField title;
@@ -92,7 +88,15 @@ public class AppointmentController implements Initializable {
     private Label main_label;
 
     @FXML
-    public void updateAppointmentList() {customer_id_box.setItems(Customers.getCustomers());}
+    private TextField update_box;
+
+    @FXML
+    public void populateCustomerBox() {customer_id_box.setItems(Customers.getCustomers());}
+
+    @FXML
+    public void populateUserBox() {user_id_box.setItems(Users.getAllUsers());}
+
+    private User activeUser = User.currentUser;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -115,9 +119,25 @@ public class AppointmentController implements Initializable {
             };
         });
 
-        customer_id_box.setOnAction((ActionEvent event) -> {
-            System.out.println();
+        user_id_box.setCellFactory(customerListView -> {
+            return new ListCell<>(){
+                @Override
+                protected void updateItem(User user, boolean empty) {
+                    super.updateItem(user, empty);
+                    if(user == null || empty) {
+                        setText(null);
+                    } else {
+
+                        setText(user.getUserName());
+
+
+                    }
+
+                }
+            };
         });
+
+
 
         Callback<ListView<Integer>, ListCell<Integer>> paddedView = integerListView -> new ListCell<>() {
             @Override
@@ -139,7 +159,9 @@ public class AppointmentController implements Initializable {
         start_min.setItems(intRange(0,59));
         end_hour.setItems(intRange(1,12));
         end_min.setItems(intRange(0,59));
-        updateAppointmentList();
+        populateCustomerBox();
+        populateUserBox();
+
 
         start_period.getItems().addAll("AM", "PM");
         end_period.getItems().addAll("AM", "PM");
@@ -164,7 +186,7 @@ public class AppointmentController implements Initializable {
         LocalDate dateValue = date_picker.getValue();
         String myFormatedDate = dateValue.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        int userId = Integer.parseInt(user_id.getText());
+        int userId = Integer.parseInt(String.valueOf(user_id_box.getValue()));
         int customerId = Integer.parseInt(customer_id_box.getValue().getCustomerId());
         String titleField = title.getText();
         String descriptionField = description.getText();
@@ -202,9 +224,10 @@ public class AppointmentController implements Initializable {
         } catch (ParseException pe) {
             pe.printStackTrace();
         }
+        String user = activeUser.getUserName();
 
         new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
-                typeField, urlField, outputStart, outputEnd);
+                typeField, urlField, outputStart, outputEnd, user);
 
         Stage stage;
         stage = (Stage)save_button.getScene().getWindow();
@@ -230,6 +253,7 @@ public class AppointmentController implements Initializable {
     public void getAppointment(Appointment appointment) {
         main_label.setText("Modify Appointment");
         save_button.setVisible(false);
+        update_button.setVisible(true);
 
         SimpleDateFormat dateForPicker = new SimpleDateFormat("yyyy-MM-dd");
         String stringForDatePicker = dateForPicker.format(appointment.getStart());
@@ -259,9 +283,11 @@ public class AppointmentController implements Initializable {
         String stringEndPeriod = endPeriod.format(appointment.getEnd());
         System.out.println(stringEndPeriod);
 
+        Customer singCustomer = Customers.getSingleCustomer(Integer.parseInt(appointment.getCustomerId()));
         customer_id_box.getItems().forEach(e -> {
-            if(e.getCustomerId().equals(appointment.getCustomerId())){
-//                customer_id_box.setValue(e.getCustomerName());
+            if(e.getCustomerId().equals(singCustomer)){
+//                customer_id_box.setCellFactory();
+                System.out.println(e);
 
             }
         });
@@ -269,7 +295,7 @@ public class AppointmentController implements Initializable {
 
 
 //        customer_id_box.setValue(appointment.getCustomerId());
-        user_id.setText(appointment.getUserId());
+//        user_id.setText(appointment.getUserId());
         title.setText(appointment.getTitle());
         description.setText(appointment.getDescription());
         location.setText(appointment.getLocation());
@@ -286,12 +312,18 @@ public class AppointmentController implements Initializable {
     }
 
     @FXML
-    public void datePicker(ActionEvent event) {
+    public void updateButton(ActionEvent event){
 
     }
 
-    @FXML
-    public void updateButton(ActionEvent event){
-
+    public void setButtonType(int i) {
+        if(i == 0){
+            save_button.setVisible(true);
+            update_button.setVisible(false);
+        }
+        else{
+            save_button.setVisible(false);
+            update_button.setVisible(true);
+        }
     }
 }

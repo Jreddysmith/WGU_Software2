@@ -92,14 +92,14 @@ public class Appointments {
     }
 
     public void addAppointment(int customerId, int userId, String title, String description, String location, String contact,
-                               String type, String url, String start, String end ) {
+                               String type, String url, String start, String end, String activeUser) {
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
         String insertAppointment = "insert into U05wjs.appointment (customerId, userId, title, description, location, contact, type, " +
                 "url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate()," +
-                " 'hummm', current_timestamp(), 'nobody')";
+                " ?, current_timestamp(), ?)";
 
         try {
             PreparedStatement appointmentStatement = connectDB.prepareStatement(insertAppointment, Statement.RETURN_GENERATED_KEYS);
@@ -113,6 +113,8 @@ public class Appointments {
             appointmentStatement.setString(8, url);
             appointmentStatement.setString(9, start);
             appointmentStatement.setString(10, end);
+            appointmentStatement.setString(11, activeUser);
+            appointmentStatement.setString(12, activeUser);
             appointmentStatement.executeUpdate();
             ResultSet appointmentOutput = appointmentStatement.getGeneratedKeys();
 
@@ -233,39 +235,6 @@ public class Appointments {
         }
         return matchedConsultant;
     }
-
-
-
-//    public static ObservableList<Appointment> getCustomerCountInMonth(String month) {
-//        System.out.println("lets see if we can get the months" + month);
-//
-//        ObservableList<Appointment> customersListMonthCount = FXCollections.observableArrayList();
-//
-//        DatabaseConnection connectNow = new DatabaseConnection();
-//        Connection connectDB = connectNow.getConnection();
-//
-//        String customerQuery = "select customerId, COUNT(*) from U05wjs.appointment where monthname(start) = ? GROUP BY customerId";
-//
-//        try{
-//            PreparedStatement customerStatement = connectDB.prepareStatement(customerQuery);
-//            customerStatement.setString(1, month);
-//            ResultSet customerResult = customerStatement.executeQuery();
-//
-//
-//            while (customerResult.next()) {
-//                String customerId = Integer.toString(customerResult.getInt("customerId"));
-//                String count = Integer.toString(customerResult.getInt(2));
-//                System.out.println("seee values" + customerId + count);
-//
-//                customersListMonthCount.add(new Appointment(customerId, count, ""));
-//
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println("this is the results back from the model" + customersListMonthCount);
-//        return customersListMonthCount;
-//    }
 
     public static void deleteAppointment(Appointment appointment){
         DatabaseConnection connectNow = new DatabaseConnection();

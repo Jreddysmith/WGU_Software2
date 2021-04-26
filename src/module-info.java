@@ -9,6 +9,8 @@ module scheduling_app {
 //    exports schedule.Models;
     opens schedule.Models;
     exports schedule.Models;
+    opens schedule.exceptions;
+    exports schedule.exceptions;
 
     opens schedule;
 }

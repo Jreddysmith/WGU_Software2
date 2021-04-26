@@ -1,5 +1,8 @@
 package schedule.Models;
 
+import javafx.scene.control.Alert;
+import schedule.exceptions.ValidationException;
+
 public class Customer {
 
     private String customerId;
@@ -15,6 +18,7 @@ public class Customer {
     private String countryId;
     private String cityId;
     private String addressId;
+    private String activeUser;
     public Customer() {
 
     }
@@ -41,7 +45,7 @@ public class Customer {
         this.addressId = addressId;
     }
 
-    public Customer(String customerId, String customerName, String address, String address2, String city, String country, String postalCode, String phone, String active) {
+    public Customer(String customerId, String customerName, String address, String address2, String city, String country, String postalCode, String phone, String active, String activeUser) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
@@ -51,6 +55,7 @@ public class Customer {
         this.postalCode = postalCode;
         this.phone = phone;
         this.active = active;
+        this.activeUser = activeUser;
     }
 
     public Customer(String customerId, String customerName, String customerAddressId, String active) {
@@ -58,6 +63,39 @@ public class Customer {
         this.customerName = customerName;
         this.customerAddressId = customerAddressId;
         this.active = active;
+    }
+
+    public Customer(String customerName, String customerAddress1, String customerAddress2, String customerCity,
+                    String customerCountry, String customerZipcode, String customerNumber, int customerActive, String user) {
+        this.customerName = customerName;
+        this.address = customerAddress1;
+        this.address2 = customerAddress2;
+        this.city = customerCity;
+        this.country = customerCountry;
+        this.postalCode = customerZipcode;
+        this.phone = customerNumber;
+        this.active = String.valueOf(customerActive);
+        this.activeUser = user;
+
+
+    }
+
+    public Customer(int customerId, String customerName, String customerAddress1, String customerAddress2, String customerCity,
+                    String customerCountry, String customerZipcode, String customerNumber, int customerActive, int customerCityId,
+                    int customerCountryId, String user) {
+        this.customerId = String.valueOf(customerId);
+        this.customerName = customerName;
+        this.address = customerAddress1;
+        this.address2 = customerAddress2;
+        this.city = customerCity;
+        this.country = customerCountry;
+        this.postalCode = customerZipcode;
+        this.phone = customerNumber;
+        this.active = String.valueOf(customerActive);
+        this.activeUser = user;
+        this.countryId = String.valueOf(customerCountryId);
+        this.cityId = String.valueOf(customerCityId);
+
     }
 
     public String getCustomerId() {
@@ -162,5 +200,34 @@ public class Customer {
 
     public void setAddressId(String addressId) {
         this.addressId = addressId;
+    }
+
+    public String getActiveUser() {
+        return activeUser;
+    }
+
+    public void setActiveUser(String activeUser) {
+        this.activeUser = activeUser;
+    }
+
+    public void validate() throws ValidationException {
+        if(getCustomerName().isEmpty() || getCustomerName().length() < 5){
+            throw new ValidationException("Name can not be empty or less than 5 Characters");
+        }
+        if(getAddress().isEmpty() || getAddress().length() < 5){
+            throw new ValidationException("Address address line 1 can not be empty or less than 5 Characters");
+        }
+        if (getCity().isEmpty() || getCity().length() < 5){
+            throw new ValidationException("City can not be empty or less than 5 Characters");
+        }
+        if(getCountry().isEmpty() || getCountry().length() < 2) {
+            throw new ValidationException("Country can not be empty or less than 2 Characters");
+        }
+        if(getPostalCode().isEmpty() || getPostalCode().length() < 5) {
+            throw new ValidationException("Zipcode can not be empty or less than 5 Characters");
+        }
+        if(getPhone().isEmpty() || getPhone().length() < 10) {
+            throw new ValidationException("Phone number can not be empty or less than 10 Characters");
+        }
     }
 }
