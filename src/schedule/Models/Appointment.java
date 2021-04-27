@@ -210,13 +210,8 @@ public class Appointment {
     }
 
 
+
     public void validate() throws ValidationException {
-//        if(getUserId() == null){
-//            throw new ValidationException("User ID can not be empty");
-//        }
-//        if(getCustomerId().isEmpty()) {
-//            throw new ValidationException("Customer ID can not be empty");
-//        }
         if (getTitle().isEmpty() || getTitle().length() < 4) {
             throw new ValidationException("Title field can not be empty or less then 4 Characters");
         }
@@ -235,11 +230,5 @@ public class Appointment {
         if(getUrl().isEmpty() || getUrl().length() < 5) {
             throw new ValidationException("Url field can not be empty or less then 5 Characters");
         }
-//        if(getStart() == null) {
-//            throw new ValidationException("Start date and time can not be empty");
-//        }
-//        if(getEnd() == null) {
-//            throw new ValidationException("End date and time can not be empty");
-//        }
     }
 }

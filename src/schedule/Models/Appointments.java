@@ -6,10 +6,8 @@ import schedule.DatabaseConnection;
 
 import java.sql.*;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -288,5 +286,34 @@ public class Appointments {
         }
     }
 
+    public static int getOverLappingDate(LocalDateTime start, LocalDateTime end) {
+        Timestamp localStartToTimestamp = Timestamp.valueOf(start);
+        Timestamp localEndToTimestamp = Timestamp.valueOf(end);
 
+
+        DatabaseConnection connNow = new DatabaseConnection();
+        Connection connDB = connNow.getConnection();
+
+        String overLapQuery = "SELECT COUNT(1) as Count FROM U05wjs.appointment WHERE (start >= ? AND end  <= ?) or " +
+                "(start >= ? AND end >= ?) or (start <= ? AND end <= ?) or (start < ? AND end > ?)";
+
+        try{
+            PreparedStatement overLapDates = connDB.prepareStatement(overLapQuery);
+            overLapDates.setTimestamp(1, localStartToTimestamp);
+            overLapDates.setTimestamp(2, localEndToTimestamp);
+            overLapDates.setTimestamp(3, localStartToTimestamp);
+            overLapDates.setTimestamp(4, localEndToTimestamp);
+            overLapDates.setTimestamp(5, localStartToTimestamp);
+            overLapDates.setTimestamp(6, localEndToTimestamp);
+            overLapDates.setTimestamp(7, localStartToTimestamp);
+            overLapDates.setTimestamp(8, localEndToTimestamp);
+            ResultSet rs = overLapDates.executeQuery();
+            if(rs.next()) {
+                return 1;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 }
