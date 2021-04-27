@@ -187,14 +187,15 @@ public class AppointmentController implements Initializable {
         }
     }
     public void validateOverlappingAppointments(LocalDateTime start, LocalDateTime end) throws IOException, ValidationException{
+        System.out.println(Appointments.getOverLappingDate(start, end));
 
         if(Appointments.getOverLappingDate(start, end) == 1){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Validation Error");
             alert.setHeaderText("Validation Error");
-            alert.setContentText("You Have to pick another date or time so you don't over lap appointments");
+            alert.setContentText("Appointments overlapping");
             alert.showAndWait();
-            throw new ValidationException("You Have to pick another date or time so you don't over lap appointments");
+            throw new ValidationException("Please pick another time.");
         }
     }
 
@@ -226,11 +227,6 @@ public class AppointmentController implements Initializable {
         }
 
     }
-
-
-
-
-
     @FXML
     public void saveButton(ActionEvent event) throws IOException, ValidationException {
         LocalDate date = date_picker.getValue();
@@ -282,7 +278,7 @@ public class AppointmentController implements Initializable {
             validateEndTimeBeforeStartTime(startDate, endDate);
             validateDateWeekend(startDate, endDate);
             validateWorkHours(startDate, endDate);
-//            validateOverlappingAppointments(startDate, endDate);
+            validateOverlappingAppointments(startDate, endDate);
             newAppointment.validate();
             new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
                     typeField, urlField, formattedStartDate, formattedEndDate, user);
@@ -407,7 +403,7 @@ public class AppointmentController implements Initializable {
                 validateEndTimeBeforeStartTime(startDate, endDate);
                 validateDateWeekend(startDate, endDate);
                 validateWorkHours(startDate, endDate);
-//                validateOverlappingAppointments(startDate, endDate);
+                validateOverlappingAppointments(startDate, endDate);
                 updateAppointment.validate();
                 new Appointments().updateAppointment(appointmentId, customerId, userId, titleField, descriptionField, locationField, contactField,
                         typeField, urlField, formattedStartDate, formattedEndDate, user);

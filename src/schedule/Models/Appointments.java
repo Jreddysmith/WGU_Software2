@@ -294,8 +294,11 @@ public class Appointments {
         DatabaseConnection connNow = new DatabaseConnection();
         Connection connDB = connNow.getConnection();
 
-        String overLapQuery = "SELECT COUNT(1) as Count FROM U05wjs.appointment WHERE (start >= ? AND end  <= ?) or " +
-                "(start >= ? AND end >= ?) or (start <= ? AND end <= ?) or (start < ? AND end > ?)";
+        String overLapQuery = "SELECT COUNT(1) as Count FROM U05wjs.appointment WHERE " +
+                "(? >= start and ? <= end) or " +
+                "(? <= start and ? >= start) or " +
+                "(? <= end and ? >= end) or " +
+                "(? <= start and ? >= end)";
 
         try{
             PreparedStatement overLapDates = connDB.prepareStatement(overLapQuery);
@@ -309,7 +312,10 @@ public class Appointments {
             overLapDates.setTimestamp(8, localEndToTimestamp);
             ResultSet rs = overLapDates.executeQuery();
             if(rs.next()) {
-                return 1;
+                int count = rs.getInt("Count");
+                if(count >= 1){
+                    return 1;
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
