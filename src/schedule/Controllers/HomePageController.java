@@ -17,6 +17,7 @@ import schedule.exceptions.ValidationException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class HomePageController implements Initializable {
@@ -156,9 +157,18 @@ public class HomePageController implements Initializable {
     @FXML
     public void customerDelete() {
         Customer customer = customer_table.getSelectionModel().getSelectedItem();
-        if(customer != null) {
-            Customers.deleteCustomer(customer);
-            updateCustomerList();
+        if (customer != null){
+            if(Appointments.getAppointmentIdForCustomerDelete(Integer.parseInt(customer.getCustomerId())) == 1) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Validation Error");
+                alert.setHeaderText("Validation Error");
+                alert.setContentText("You have to Delete appointments with matching\n" +
+                        "customer ID before being able to delete customer.");
+                alert.showAndWait();
+            } else {
+                Customers.deleteCustomer(customer);
+                updateCustomerList();
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");

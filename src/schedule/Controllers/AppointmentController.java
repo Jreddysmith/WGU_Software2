@@ -227,6 +227,7 @@ public class AppointmentController implements Initializable {
         }
 
     }
+
     @FXML
     public void saveButton(ActionEvent event) throws IOException, ValidationException {
         LocalDate date = date_picker.getValue();

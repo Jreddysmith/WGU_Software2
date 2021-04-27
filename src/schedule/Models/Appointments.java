@@ -322,4 +322,26 @@ public class Appointments {
         }
         return 0;
     }
+
+    public static int getAppointmentIdForCustomerDelete(int customerId) {
+        DatabaseConnection connNow = new DatabaseConnection();
+        Connection connDB = connNow.getConnection();
+
+        String overLapQuery = "SELECT COUNT(1) as Count FROM U05wjs.appointment WHERE customerId = ?";
+
+        try{
+            PreparedStatement overLapDates = connDB.prepareStatement(overLapQuery);
+            overLapDates.setInt(1, customerId);
+            ResultSet rs = overLapDates.executeQuery();
+            if(rs.next()) {
+                int count = rs.getInt("Count");
+                if(count >= 1){
+                    return 1;
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 }
