@@ -108,9 +108,9 @@ public class AppointmentController implements Initializable {
         });
 
         start_hour.getItems().addAll("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14",
-        "15", "16", "17", "18", "19", "20", "21", "22", "23", "24");
+        "15", "16", "17", "18", "19", "20", "21", "22", "23");
         end_hour.getItems().addAll("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14",
-                "15", "16", "17", "18", "19", "20", "21", "22", "23", "24");
+                "15", "16", "17", "18", "19", "20", "21", "22", "23");
         start_min.getItems().addAll("00","15", "30", "45");
         end_min.getItems().addAll("00","15", "30", "45");
 //        start_period.getItems().addAll("AM", "PM");
@@ -175,13 +175,15 @@ public class AppointmentController implements Initializable {
 
     public void validateDateWeekend(LocalDateTime start, LocalDateTime end) throws IOException, ValidationException{
         // 6 is Saturday the 6th day of the week and 7 is Sunday the 7th day of the week.
+        System.out.println("start day of week " + start.getDayOfWeek().getValue());
+        System.out.println("end day of week " + end.getDayOfWeek().getValue());
         if(start.getDayOfWeek().getValue() == 6 || end.getDayOfWeek().getValue() == 7){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Validation Error");
             alert.setHeaderText("Validation Error");
             alert.setContentText("You can not make an appointment on a weekend");
             alert.showAndWait();
-            throw new ValidationException("You can not have end time be before start time");
+            throw new ValidationException("You can not make an appointment on a weekend");
         }
     }
     public void validateOverlappingAppointments(LocalDateTime start, LocalDateTime end) throws IOException, ValidationException{
@@ -197,17 +199,32 @@ public class AppointmentController implements Initializable {
     }
 
     public void validateWorkHours(LocalDateTime start, LocalDateTime end) throws IOException, ValidationException{
+        LocalTime startToTime = start.toLocalTime();
+        LocalTime endToTime = end.toLocalTime();
+        System.out.println(startToTime);
+        System.out.println(endToTime);
+
         LocalTime openBusinessHours = LocalTime.of(8, 0);
         LocalTime closeBusinessHours = LocalTime.of(17, 0);
 
-//        if(start.isBefore(openBusinessHours) || end.isAfter(closeBusinessHours)){
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//            alert.setTitle("Validation Error");
-//            alert.setHeaderText("Validation Error");
-//            alert.setContentText("You can not make an appointment on a weekend");
-//            alert.showAndWait();
-//            throw new ValidationException("You can not have end time be before start time");
-//        }
+        if(startToTime.isBefore(openBusinessHours) || endToTime.isAfter(closeBusinessHours)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Validation Error");
+            alert.setHeaderText("Validation Error");
+            alert.setContentText("You have to pick a time within business hours");
+            alert.showAndWait();
+            throw new ValidationException("You have to pick a time within business hours");
+        }
+
+        if(startToTime.equals(endToTime)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Validation Error");
+            alert.setHeaderText("Validation Error");
+            alert.setContentText("Start Time and end time can not be the same");
+            alert.showAndWait();
+            throw new ValidationException("Start Time and end time can not be the same");
+        }
+
     }
 
 
@@ -265,7 +282,7 @@ public class AppointmentController implements Initializable {
             validateEndTimeBeforeStartTime(startDate, endDate);
             validateDateWeekend(startDate, endDate);
             validateWorkHours(startDate, endDate);
-            validateOverlappingAppointments(startDate, endDate);
+//            validateOverlappingAppointments(startDate, endDate);
             newAppointment.validate();
             new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
                     typeField, urlField, formattedStartDate, formattedEndDate, user);
@@ -390,7 +407,7 @@ public class AppointmentController implements Initializable {
                 validateEndTimeBeforeStartTime(startDate, endDate);
                 validateDateWeekend(startDate, endDate);
                 validateWorkHours(startDate, endDate);
-                validateOverlappingAppointments(startDate, endDate);
+//                validateOverlappingAppointments(startDate, endDate);
                 updateAppointment.validate();
                 new Appointments().updateAppointment(appointmentId, customerId, userId, titleField, descriptionField, locationField, contactField,
                         typeField, urlField, formattedStartDate, formattedEndDate, user);
