@@ -61,7 +61,7 @@
             <Button fx:id="view_appointments" layoutX="38.0" layoutY="13.0" mnemonicParsing="false" onAction="#viewAppointments" text="View Appointments" />
             <Button fx:id="appointment_types_report" layoutX="224.0" layoutY="13.0" mnemonicParsing="false" onAction="#appointmentTypesReport" text="Appointment Types Report" />
             <Button fx:id="consultant_schedule_report" layoutX="471.0" layoutY="12.0" mnemonicParsing="false" onAction="#consultantScheduleReport" prefHeight="26.0" prefWidth="220.0" text="Consultant Schedule Report" />
-            <Button fx:id="appointment_costumers_report" layoutX="720.0" layoutY="12.0" mnemonicParsing="false" onAction="#appointmentCostumersReport" prefHeight="26.0" prefWidth="226.0" text="Appointment Costumers Report" />
+            <Button fx:id="appointment_costumers_report" layoutX="720.0" layoutY="12.0" mnemonicParsing="false" onAction="#appointmentCostumersReport" prefHeight="26.0" prefWidth="226.0" text="New Customers Report" />
          </children>
       </AnchorPane>
    </children>
