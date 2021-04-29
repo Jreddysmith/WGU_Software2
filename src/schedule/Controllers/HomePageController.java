@@ -137,7 +137,8 @@ public class HomePageController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("Modify Error");
-            alert.setContentText("You have to have a customer selected to be able to modify it");
+            alert.setContentText("You have to have a customer selected\n" +
+                    "to be able to modify the customer.");
             alert.showAndWait();
         } else {
             FXMLLoader loader = new FXMLLoader();
@@ -200,7 +201,8 @@ public class HomePageController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("Modify Error");
-            alert.setContentText("You have to have a appointment selected to be able to modify it");
+            alert.setContentText("You have to have a appointment selected\n" +
+                    "to be able to modify the appointment.");
             alert.showAndWait();
         } else {
             FXMLLoader loader = new FXMLLoader();
