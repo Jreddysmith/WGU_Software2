@@ -252,7 +252,7 @@ public class Appointments {
     public void updateAppointment(int appointmentId, int customerId, int userId, String title, String description, String location, String contact,
                                          String type, String url, String start, String end, String activeUser) {
 
-        System.out.println("lets see if the appointment Id goes here" + appointmentId);
+//        System.out.println("lets see if the appointment Id goes here" + appointmentId);
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
         LocalDateTime now = LocalDateTime.now();
@@ -343,5 +343,35 @@ public class Appointments {
             throw new RuntimeException(e);
         }
         return 0;
+    }
+
+    public static int updateAppointmentMatchForOverLapping(int appointmentId, LocalDateTime start, LocalDateTime end) {
+        Timestamp localStartToTimestamp = Timestamp.valueOf(start);
+        Timestamp localEndToTimestamp = Timestamp.valueOf(end);
+
+
+        DatabaseConnection connNow = new DatabaseConnection();
+        Connection connDB = connNow.getConnection();
+
+        String overLapQuery = "SELECT COUNT(1) as Count FROM U05wjs.appointment WHERE " +
+                "(appointmentId = ?) AND (start = ?) AND (end = ?)";
+        try{
+            PreparedStatement overLapDates = connDB.prepareStatement(overLapQuery);
+            overLapDates.setInt(1, appointmentId);
+            overLapDates.setTimestamp(2, localStartToTimestamp);
+            overLapDates.setTimestamp(3, localEndToTimestamp);
+
+            ResultSet rs = overLapDates.executeQuery();
+            if(rs.next()) {
+                int count = rs.getInt("Count");
+                if(count >= 1){
+                    return 1;
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+
     }
 }

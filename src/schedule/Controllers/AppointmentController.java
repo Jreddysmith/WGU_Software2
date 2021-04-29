@@ -404,7 +404,9 @@ public class AppointmentController implements Initializable {
                 validateEndTimeBeforeStartTime(startDate, endDate);
                 validateDateWeekend(startDate, endDate);
                 validateWorkHours(startDate, endDate);
-                validateOverlappingAppointments(startDate, endDate);
+                if(Appointments.updateAppointmentMatchForOverLapping(appointmentId, startDate, endDate) == 0) {
+                    validateOverlappingAppointments(startDate, endDate);
+                }
                 updateAppointment.validate();
                 new Appointments().updateAppointment(appointmentId, customerId, userId, titleField, descriptionField, locationField, contactField,
                         typeField, urlField, formattedStartDate, formattedEndDate, user);

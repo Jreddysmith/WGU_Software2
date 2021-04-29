@@ -51,8 +51,8 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Locale.setDefault(new Locale("es", "ES"));
-        System.out.println(Locale.getDefault());
+//        Locale.setDefault(new Locale("es", "ES"));
+//        System.out.println(Locale.getDefault());
         setLanguage();
     }
 
@@ -156,7 +156,7 @@ public class LoginController implements Initializable {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setTitle("Error");
                             alert.setHeaderText("error de inicio de sesión");
-                            alert.setContentText("Le nom d'utilisateur et le mot\n de passe ne correspondent pas");
+                            alert.setContentText("Le nom d'utilisateur et le mot\nde passe ne correspondent pas");
                             alert.showAndWait();
                         } else {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
