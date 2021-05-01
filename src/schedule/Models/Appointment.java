@@ -6,8 +6,12 @@ import schedule.exceptions.ValidationException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class Appointment {
 
@@ -21,8 +25,8 @@ public class Appointment {
     private String type;
     private String url;
     private LocalDate date;
-    private Timestamp start;
-    private Timestamp end;
+    private Date start;
+    private Date end;
     private String count;
     private String activeUser;
 
@@ -43,7 +47,7 @@ public class Appointment {
     }
 
     public Appointment(String appointmentId, String customerId, String userId, String title, String description,
-                       String location, String contact, String type, String url, Timestamp start, Timestamp end) {
+                       String location, String contact, String type, String url, Date start, Date end) {
         this.appointmentId = appointmentId;
         this.customerId = customerId;
         this.userId = userId;
@@ -58,7 +62,7 @@ public class Appointment {
     }
 
     public Appointment(int customerId, int userId, String titleField, String descriptionField, String locationField, String contactField,
-                       String typeField, String urlField, String outputStart, String outputEnd, String user) {
+                       String typeField, String urlField, Date outputStart, Date outputEnd, String user) {
         this.customerId = String.valueOf(customerId);
         this.userId = String.valueOf(userId);
         this.title = titleField;
@@ -67,8 +71,8 @@ public class Appointment {
         this.contact = contactField;
         this.type = typeField;
         this.url = urlField;
-        this.start = Timestamp.valueOf(outputStart);
-        this.end = Timestamp.valueOf(outputEnd);
+        this.start = outputStart;
+        this.end = outputEnd;
         this.activeUser = user;
 
     }
@@ -161,19 +165,19 @@ public class Appointment {
         this.url = url;
     }
 
-    public Timestamp getStart() {
+    public Date getStart() {
         return start;
     }
 
-    public void setStart(Timestamp start) {
+    public void setStart(Date start) {
         this.start = start;
     }
 
-    public Timestamp getEnd() {
+    public Date getEnd() {
         return end;
     }
 
-    public void setEnd(Timestamp end) {
+    public void setEnd(Date end) {
         this.end = end;
     }
 
@@ -202,6 +206,7 @@ public class Appointment {
     }
 
     public String getFormattedStartTime() {
+//        return ZonedDateTime.ofInstant(start.toInstant(), ZoneId.systemDefault()).toString();
         return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault()).format(start);
     }
 

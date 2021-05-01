@@ -11,7 +11,7 @@ public class DatabaseConnection {
         String databaseName = "U05wjs";
         String databaseUser = "U05wjs";
         String databasePassword = "53688629103";
-        String url = "jdbc:mysql://wgudb.ucertify.com";
+        String url = "jdbc:mysql://wgudb.ucertify.com?preserveInstants=true&connectionTimeZone=SERVER";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

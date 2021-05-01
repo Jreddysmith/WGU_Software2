@@ -17,10 +17,7 @@ import schedule.exceptions.ValidationException;
 import java.io.IOException;
 import java.net.URL;
 import java.text.*;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -256,24 +253,16 @@ public class AppointmentController implements Initializable {
 //        String endPeriod = end_period.getValue();
 
         StringBuilder startString = new StringBuilder(startHour + ":" + startMin + ":" + "00");
-
-        DateTimeFormatter storedAppointment = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         LocalDateTime startDate = LocalDateTime.of(date, LocalTime.parse(startString));
 
-        String formattedStartDate = storedAppointment.format(startDate);
-        System.out.println(formattedStartDate);
-
         StringBuilder endString = new StringBuilder(endHour + ":" + endMin + ":" + "00");
-
         LocalDateTime endDate = LocalDateTime.of(date, LocalTime.parse(endString));
 
-        String formattedEndDate = storedAppointment.format(endDate);
-        System.out.println(formattedStartDate);
-        System.out.println(formattedEndDate);
 
 
         Appointment newAppointment = new Appointment(customerId, userId, titleField, descriptionField, locationField, contactField,
-                typeField, urlField, formattedStartDate, formattedEndDate, user);
+                typeField, urlField, Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant()), user);
 
         try{
             validateEndTimeBeforeStartTime(startDate, endDate);
@@ -282,7 +271,8 @@ public class AppointmentController implements Initializable {
             validateOverlappingAppointments(startDate, endDate);
             newAppointment.validate();
             new Appointments().addAppointment(customerId, userId, titleField, descriptionField, locationField, contactField,
-                    typeField, urlField, formattedStartDate, formattedEndDate, user);
+                    typeField, urlField, Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant()),
+                    Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant()), user);
 
             Stage stage;
             stage = (Stage)save_button.getScene().getWindow();
@@ -382,24 +372,15 @@ public class AppointmentController implements Initializable {
                 validateTime(start_min.getValue());
                 validateTime(end_min.getValue());
                 StringBuilder startString = new StringBuilder(startHour + ":" + startMin + ":" + "00");
-
-                DateTimeFormatter storedAppointment = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                 LocalDateTime startDate = LocalDateTime.of(date, LocalTime.parse(startString));
 
-                String formattedStartDate = storedAppointment.format(startDate);
-                System.out.println(formattedStartDate);
-
                 StringBuilder endString = new StringBuilder(endHour + ":" + endMin + ":" + "00");
-
                 LocalDateTime endDate = LocalDateTime.of(date, LocalTime.parse(endString));
-
-                String formattedEndDate = storedAppointment.format(endDate);
-                System.out.println(formattedStartDate);
-                System.out.println(formattedEndDate);
 
 
                 Appointment updateAppointment = new Appointment(customerId, userId, titleField, descriptionField, locationField, contactField,
-                        typeField, urlField, formattedStartDate, formattedEndDate, user);
+                        typeField, urlField, Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant()),
+                        Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant()), user);
                 int appointmentId = Integer.parseInt(appointment.getAppointmentId());
                 validateEndTimeBeforeStartTime(startDate, endDate);
                 validateDateWeekend(startDate, endDate);
@@ -409,7 +390,8 @@ public class AppointmentController implements Initializable {
                 }
                 updateAppointment.validate();
                 new Appointments().updateAppointment(appointmentId, customerId, userId, titleField, descriptionField, locationField, contactField,
-                        typeField, urlField, formattedStartDate, formattedEndDate, user);
+                        typeField, urlField, Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant()),
+                        Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant()), user);
 
                 Stage stage;
                 stage = (Stage)save_button.getScene().getWindow();

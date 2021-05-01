@@ -8,8 +8,12 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class Appointments {
 
@@ -91,7 +95,7 @@ public class Appointments {
     }
 
     public void addAppointment(int customerId, int userId, String title, String description, String location, String contact,
-                               String type, String url, String start, String end, String activeUser) {
+                               String type, String url, java.util.Date start, java.util.Date end, String activeUser) {
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
@@ -110,8 +114,8 @@ public class Appointments {
             appointmentStatement.setString(6, contact);
             appointmentStatement.setString(7, type);
             appointmentStatement.setString(8, url);
-            appointmentStatement.setString(9, start);
-            appointmentStatement.setString(10, end);
+            appointmentStatement.setTimestamp(9, new Timestamp(start.getTime()));
+            appointmentStatement.setTimestamp(10, new Timestamp(end.getTime()));
             appointmentStatement.setString(11, activeUser);
             appointmentStatement.setString(12, activeUser);
             appointmentStatement.executeUpdate();
@@ -209,7 +213,6 @@ public class Appointments {
             PreparedStatement statement = connDB.prepareStatement(query);
             statement.setInt(1, consultantId);
             ResultSet rs = statement.executeQuery();
-            DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
 
             while (rs.next()) {
                 String appointmentId = Integer.toString(rs.getInt(1));
@@ -250,14 +253,11 @@ public class Appointments {
         }
     }
     public void updateAppointment(int appointmentId, int customerId, int userId, String title, String description, String location, String contact,
-                                         String type, String url, String start, String end, String activeUser) {
+                                         String type, String url, java.util.Date start, java.util.Date end, String activeUser) {
 
 //        System.out.println("lets see if the appointment Id goes here" + appointmentId);
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
-        String formatDateTime = now.format(format);
 
 
         String updateCustomerTable = "update U05wjs.appointment set customerId=?, userId=?, title=?, description=?, location=?, contact=?," +
@@ -274,9 +274,9 @@ public class Appointments {
             customerTableStmt.setString(6, contact);
             customerTableStmt.setString(7, type);
             customerTableStmt.setString(8, url);
-            customerTableStmt.setString(9, start);
-            customerTableStmt.setString(10, end);
-            customerTableStmt.setTimestamp(11, Timestamp.valueOf(formatDateTime));
+            customerTableStmt.setTimestamp(9, new Timestamp(start.getTime()));
+            customerTableStmt.setTimestamp(10, new Timestamp(end.getTime()));
+            customerTableStmt.setTimestamp(11, new Timestamp(new Date().getTime()));
             customerTableStmt.setString(12, activeUser);
             customerTableStmt.setInt(13, appointmentId);
             customerTableStmt.executeUpdate();
