@@ -294,7 +294,7 @@ public class Appointments {
         DatabaseConnection connNow = new DatabaseConnection();
         Connection connDB = connNow.getConnection();
 
-        String overLapQuery = "SELECT COUNT(1) as Count FROM U05wjs.appointment WHERE " +
+        String overLapQuery = "SELECT * FROM U05wjs.appointment WHERE " +
                 "(? >= start and ? <= end) or " +
                 "(? <= start and ? >= start) or " +
                 "(? <= end and ? >= end) or " +
@@ -312,10 +312,12 @@ public class Appointments {
             overLapDates.setTimestamp(8, localEndToTimestamp);
             ResultSet rs = overLapDates.executeQuery();
             if(rs.next()) {
-                int count = rs.getInt("Count");
-                if(count >= 1){
-                    return 1;
-                }
+//                System.out.println(localStartToTimestamp);
+//                System.out.println(localEndToTimestamp);
+//                System.out.println(rs.getString("title"));
+//                System.out.println(rs.getTimestamp("start"));
+//                System.out.println(rs.getTimestamp("end"));
+                return 1;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
